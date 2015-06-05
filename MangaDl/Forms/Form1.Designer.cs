@@ -44,6 +44,9 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.threadLimitButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.threadLimitTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.queueListview = new System.Windows.Forms.ListView();
             this.tabControl1.SuspendLayout();
@@ -208,6 +211,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.threadLimitButton);
+            this.tabPage2.Controls.Add(this.label2);
+            this.tabPage2.Controls.Add(this.threadLimitTextBox);
             this.tabPage2.Controls.Add(this.label1);
             this.tabPage2.Controls.Add(this.queueListview);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -217,6 +223,33 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Download Queue";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // threadLimitButton
+            // 
+            this.threadLimitButton.Location = new System.Drawing.Point(653, 33);
+            this.threadLimitButton.Name = "threadLimitButton";
+            this.threadLimitButton.Size = new System.Drawing.Size(96, 23);
+            this.threadLimitButton.TabIndex = 4;
+            this.threadLimitButton.Text = "Set Thread Limit";
+            this.threadLimitButton.UseVisualStyleBackColor = true;
+            this.threadLimitButton.Click += new System.EventHandler(this.threadLimitButton_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(544, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(61, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Thread limit";
+            // 
+            // threadLimitTextBox
+            // 
+            this.threadLimitTextBox.Location = new System.Drawing.Point(547, 35);
+            this.threadLimitTextBox.Name = "threadLimitTextBox";
+            this.threadLimitTextBox.Size = new System.Drawing.Size(100, 20);
+            this.threadLimitTextBox.TabIndex = 2;
+            this.threadLimitTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.threadLimitTextBox_KeyPress);
             // 
             // label1
             // 
@@ -273,6 +306,9 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListView queueListview;
+        private System.Windows.Forms.Button threadLimitButton;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox threadLimitTextBox;
     }
 }
 

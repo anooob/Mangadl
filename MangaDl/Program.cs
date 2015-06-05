@@ -25,6 +25,10 @@ namespace MangaDl
                         {
                             Config.SavePath = line.Split(Config.Separator).Last();
                         }
+                        if (line.Contains(Config.ThreadLimitStr))
+                        {
+                            Config.ThreadLimit = uint.Parse(line.Split(Config.Separator).Last());
+                        }
                     }
                 }
             }
@@ -36,11 +40,12 @@ namespace MangaDl
 
         public static void SaveConfig()
         {
-            using (FileStream fs = new FileStream(Config.ConfigFile, FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new FileStream(Config.ConfigFile, FileMode.Truncate, FileAccess.Write))
             {
                 using (StreamWriter writer = new StreamWriter(fs))
                 {
                     writer.WriteLine(Config.SavePathStr + Config.Separator + Config.SavePath);
+                    writer.WriteLine(Config.ThreadLimitStr + Config.Separator + Config.ThreadLimit.ToString());
                 }
             }
         }

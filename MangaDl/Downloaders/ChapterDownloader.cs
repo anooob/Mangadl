@@ -15,13 +15,23 @@ namespace MangaDl
     class ChapterDownloader
     {
         private string m_url;
-        private string m_mangaName;
         private float m_chapterNum;
         private float m_volumeNum;
         private string m_imgElementName;
         private string m_urlPrefix;
         private string m_chapterPath;
         private HtmlWeb m_web;
+
+        private string m_mangaName;
+        public string MangaName
+        {
+            get { return m_mangaName; }
+        }
+
+        public string FullName
+        {
+            get { return m_mangaName + "_" + m_chapterName; }
+        }
         
         private List<ChapterListViewItem> m_items = new List<ChapterListViewItem>();
         public List<ChapterListViewItem> Items
@@ -221,7 +231,7 @@ namespace MangaDl
             }
         }
 
-        private void UpdateStatus(Status status)
+        public void UpdateStatus(Status status)
         {
             m_status = status;
 

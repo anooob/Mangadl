@@ -55,6 +55,8 @@ namespace MangaDl
         private Thread m_infoWorker;
         private List<Thread> m_workers = new List<Thread>();
 
+        private Dictionary<string, ThreadWorker> m_downloadQueue = new Dictionary<string, ThreadWorker>();
+
         public string Url
         {
             get { return m_url; }
@@ -91,7 +93,13 @@ namespace MangaDl
                 {
                     m_workers.Remove(tw.Thread);
                 }
+                var c = tw.Task.Target as ChapterDownloader;
+                if (c != null)
+                {
+                    m_downloadQueue.Remove(c.FullName);
+                }
             }
+            RefreshQueue();
         }
 
         public void AbortDownload()
@@ -124,22 +132,38 @@ namespace MangaDl
             }
         }
 
-        public void DownloadSelectedChapters(List<ChapterDownloader> list)
+        public void RefreshQueue()
         {
-            foreach (var c in list)
+            foreach (var tw in m_downloadQueue)
             {
-                if (c.IsDownloading || c.IsValidating)
+                var c = tw.Value.Task.Target as ChapterDownloader;
+                if (c == null || c.IsDownloading || c.IsValidating || m_workers.Count >= Config.ThreadLimit)
                 {
                     continue;
                 }
-                ThreadWorker tw = new ThreadWorker(c.DownloadChapter);
-                tw.ThreadDone += WorkerFinishedCallback;
-                var t = new Thread(tw.Run);
-                tw.Thread = t;
+
+                var t = new Thread(tw.Value.Run);
+                tw.Value.Thread = t;
                 m_workers.Add(t);
                 t.IsBackground = true;
                 t.Start();
             }
+        }
+
+        public void DownloadSelectedChapters(List<ChapterDownloader> list)
+        {
+            foreach (var c in list)
+            {
+                if (m_downloadQueue.ContainsKey(c.FullName))
+                {
+                    continue;
+                }
+                c.UpdateStatus(Status.WAITING);
+                ThreadWorker tw = new ThreadWorker(c.DownloadChapter);
+                tw.ThreadDone += WorkerFinishedCallback;
+                m_downloadQueue.Add(c.FullName, tw);
+            }
+            RefreshQueue();
         }
 
         public void GetChapters()

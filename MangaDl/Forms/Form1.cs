@@ -18,18 +18,17 @@ namespace MangaDl
     {
         private delegate void ChapterInfoDelegate(List<ChapterDownloader> list);
         private delegate void SearchResultDelegate(List<Manga> list);
-        private delegate void UpdateProgressDelegate(ChapterListViewItem chapterItem, int progress);
-        private delegate void UpdateStatusDelegate(ChapterListViewItem chapterItem, Status status);
-
         private delegate void RefreshItemDelegate(List<ChapterListViewItem> items);
 
         private DownloadManagerMangaFox m_downloader;
         private Search m_search;
 
-        private Dictionary<uint, ChapterDownloader> m_chapters = new Dictionary<uint,ChapterDownloader>();
+        private Dictionary<string, ChapterDownloader> m_chapters = new Dictionary<string,ChapterDownloader>();
 
         public Form1()
         {
+            m_downloader = new DownloadManagerMangaFox(OnGetChapterInfoCompleted);
+
             InitializeComponent();
             dlpathTextbox.Text = Config.SavePath;
 
@@ -50,6 +49,8 @@ namespace MangaDl
             searchListview.MultiSelect = false;
             searchListview.Columns.Add("Name", 300);
             searchListview.Activation = ItemActivation.TwoClick;
+
+            threadLimitTextBox.Text = Config.ThreadLimit.ToString();
             
             m_downloader = new DownloadManagerMangaFox(OnGetChapterInfoCompleted);
             m_search = new Search(OnSearchCompleted);
@@ -141,7 +142,7 @@ namespace MangaDl
                 if (item != null)
                 {
                     ClearChapterListView(chaptersListview);
-                    m_downloader.AbortDownload();
+                   // m_downloader.AbortDownload();
                     m_downloader.Url = item.Manga.Url;
                     m_downloader.GetChapters();
                 }
@@ -176,7 +177,7 @@ namespace MangaDl
 
         private void AddChapterToQueue(ChapterDownloader chapter)
         {
-            var item = new ChapterListViewItem(new string[] { chapter.Name, "0", "Ready" });
+            var item = new ChapterListViewItem(new string[] { chapter.FullName, "0", "Ready" });
             item.Chapter = chapter;
             chapter.Items.Add(item);
             item.Refresh();
@@ -282,6 +283,24 @@ namespace MangaDl
             }
             m_downloader.ValidateChapters(chapters);
         }
+
+        private void threadLimitTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void threadLimitButton_Click(object sender, EventArgs e)
+        {
+            if (m_downloader != null && threadLimitTextBox.Text != "")
+            {
+                Config.ThreadLimit = uint.Parse(threadLimitTextBox.Text);
+                Program.SaveConfig();
+                m_downloader.RefreshQueue();
+            }
+        }
     }
 
     class ChapterListViewItem : ListViewItem
@@ -313,6 +332,9 @@ namespace MangaDl
                             break;
                         case Status.INCOMPLETE:
                             SubItems[2].Text = "Incomplete";
+                            break;
+                        case Status.WAITING:
+                            SubItems[2].Text = "Waiting";
                             break;
                     }
                 }

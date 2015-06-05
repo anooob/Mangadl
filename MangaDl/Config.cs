@@ -14,6 +14,7 @@ namespace MangaDl
         ERROR,
         VALIDATING,
         INCOMPLETE,
+        WAITING,
         DEFAULT
     }
 
@@ -24,7 +25,7 @@ namespace MangaDl
 
         public static string SavePathStr = "path";
         private static string DefaultPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        
+
         private static string m_savePath = DefaultPath;
         public static string SavePath
         {
@@ -40,6 +41,15 @@ namespace MangaDl
                     m_savePath = DefaultPath;
                 }
             }
+        }
+
+        public static string ThreadLimitStr = "threads";
+        
+        private static uint m_threadLimit = 3;
+        public static uint ThreadLimit
+        {
+            get { return m_threadLimit; }
+            set { m_threadLimit = value; }
         }
     }
 }

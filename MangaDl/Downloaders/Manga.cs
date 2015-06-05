@@ -57,12 +57,20 @@ namespace MangaDl
             {
                 return;
             }
-            var chapterList = document.GetElementbyId("chapters");
-            var chapters = chapterList.SelectNodes("//a[@class='tips']");
-
-            foreach (var c in chapters)
+            try
             {
-                m_chapters.Add(new ChapterDownloader(c.Attributes["href"].Value, "image"));
+
+                var chapterList = document.GetElementbyId("chapters");
+                var chapters = chapterList.SelectNodes("//a[@class='tips']");
+
+                foreach (var c in chapters)
+                {
+                    m_chapters.Add(new ChapterDownloader(c.Attributes["href"].Value, "image"));
+                }
+            }
+            catch (Exception)
+            {
+                return;
             }
         }
     }

@@ -21,8 +21,12 @@ namespace MangaDl
         private delegate void UpdateProgressDelegate(ChapterListViewItem chapterItem, int progress);
         private delegate void UpdateStatusDelegate(ChapterListViewItem chapterItem, Status status);
 
+        private delegate void RefreshItemDelegate(List<ChapterListViewItem> items);
+
         private DownloadManagerMangaFox m_downloader;
         private Search m_search;
+
+        private Dictionary<uint, ChapterDownloader> m_chapters = new Dictionary<uint,ChapterDownloader>();
 
         public Form1()
         {
@@ -65,46 +69,34 @@ namespace MangaDl
             {
                 foreach (var c in list)
                 {
-                    var item = new ChapterListViewItem(new string[]{ c.Name, "0", "def" });
-                    item.Status = Status.READY;
+                    //m_chapters.Add(c.Id, c);
+                    var item = new ChapterListViewItem(new string[]{ c.Name, "0", "Ready" });
                     item.Chapter = c;
-                    c.ListItem = item;
-                    item.UpdateProgressCallback = OnUpdateProgress;
-                    item.UpdateStatusCallback = OnUpdateStatus;
+                    c.Items.Add(item);
+                    item.Refresh();
+                    item.Name = c.Id.ToString();
+                    c.RefreshItemCallback = OnRefreshItem;
                     chaptersListview.Items.Add(item);
                 }
             }
         }
 
-        private void OnUpdateProgress(ChapterListViewItem chapterItem, int progress)
+        private void OnRefreshItem(List<ChapterListViewItem> items)
         {
-            if (chapterItem == null)
-                return;
             if (chaptersListview.InvokeRequired)
             {
-                UpdateProgressDelegate call = new UpdateProgressDelegate(OnUpdateProgress);
-                chaptersListview.Invoke(call, chapterItem, progress);
+                RefreshItemDelegate call = new RefreshItemDelegate(OnRefreshItem);
+                chaptersListview.Invoke(call, items);
             }
-            else 
+            else
             {
-                chapterItem.SubItems[1].Text = progress.ToString();   
-            }
-        }
-
-        private void OnUpdateStatus(ChapterListViewItem item, Status status)
-        {
-            if (item == null)
-            {
-                return;
-            }
-            if (chaptersListview.InvokeRequired)
-            {
-                UpdateStatusDelegate call = new UpdateStatusDelegate(OnUpdateStatus);
-                chaptersListview.Invoke(call, item, status);
-            }
-            else 
-            {
-                item.Status = status;
+                foreach (var item in items)
+                {
+                    if (item != null)
+                    {
+                        item.Refresh();
+                    }
+                }
             }
         }
 
@@ -129,6 +121,18 @@ namespace MangaDl
             }
         }
 
+        private void ClearChapterListView(ListView list)
+        {
+            foreach (ChapterListViewItem item in list.Items)
+            {
+                if (item != null)
+                {
+                    item.Chapter.Items.Remove(item);
+                }
+            }
+            list.Items.Clear();
+        }
+
         private void LoadChapters()
         {
             if (m_downloader != null && searchListview.SelectedItems.Count != 0)
@@ -136,7 +140,7 @@ namespace MangaDl
                 var item = (searchListview.SelectedItems[0] as MangaListViewItem);
                 if (item != null)
                 {
-                    chaptersListview.Items.Clear();
+                    ClearChapterListView(chaptersListview);
                     m_downloader.AbortDownload();
                     m_downloader.Url = item.Manga.Url;
                     m_downloader.GetChapters();
@@ -170,6 +174,17 @@ namespace MangaDl
             }
         }
 
+        private void AddChapterToQueue(ChapterDownloader chapter)
+        {
+            var item = new ChapterListViewItem(new string[] { chapter.Name, "0", "Ready" });
+            item.Chapter = chapter;
+            chapter.Items.Add(item);
+            item.Refresh();
+            item.Name = chapter.Id.ToString();
+            chapter.RefreshItemCallback = OnRefreshItem;
+            queueListview.Items.Add(item);
+        }
+
         private void DownloadSelected()
         {
             if (m_downloader != null)
@@ -182,6 +197,7 @@ namespace MangaDl
                     if (item != null)
                     {
                         chaptersToDownload.Add(item.Chapter);
+                        AddChapterToQueue(item.Chapter);
                     }
                 }
                 m_downloader.DownloadSelectedChapters(chaptersToDownload);
@@ -271,21 +287,18 @@ namespace MangaDl
     class ChapterListViewItem : ListViewItem
     {
         public ChapterDownloader Chapter;
+        private Status m_status;
 
-        public Action<ChapterListViewItem, int> UpdateProgressCallback;
-        public Action<ChapterListViewItem, Status> UpdateStatusCallback;
-
-        private Status m_status = Status.DEFAULT;
-        public Status Status
+        public void Refresh()
         {
-            get { return m_status; }
-            set 
+            if (Chapter != null)
             {
-                if (m_status != value)
+                SubItems[1].Text = Chapter.Progress.ToString();
+                if (m_status != Chapter.Status)
                 {
-                    m_status = value;
-                    switch (value)
-                    { 
+                    m_status = Chapter.Status;
+                    switch (m_status)
+                    {
                         case Status.READY:
                             SubItems[2].Text = "Ready";
                             break;

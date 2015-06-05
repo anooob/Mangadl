@@ -22,6 +22,12 @@ namespace MangaDl
         private string m_urlPrefix;
         private string m_chapterPath;
         private HtmlWeb m_web;
+        
+        private List<ChapterListViewItem> m_items = new List<ChapterListViewItem>();
+        public List<ChapterListViewItem> Items
+        {
+            get { return m_items; }
+        }
 
         private uint m_id = 0;
         public uint Id
@@ -65,10 +71,11 @@ namespace MangaDl
             get { return m_chapterName; }
         }
 
-        public ChapterListViewItem ListItem;
+        public Action<List<ChapterListViewItem>> RefreshItemCallback;
 
         public ChapterDownloader(string url, string imgElementName)
         {
+            m_id = Globals.ChapterId;
             m_url = url;
             m_imgElementName = imgElementName;
             m_web = new HtmlWeb();
@@ -206,18 +213,21 @@ namespace MangaDl
 
         private void UpdateProgress(int progress)
         {
+            m_progress = progress;
 
-            if (ListItem != null && ListItem.UpdateProgressCallback != null)
+            if (RefreshItemCallback != null)
             {
-                ListItem.UpdateProgressCallback(ListItem, progress);
+                RefreshItemCallback(m_items);
             }
         }
 
         private void UpdateStatus(Status status)
         {
-            if (ListItem != null && ListItem.UpdateStatusCallback != null)
+            m_status = status;
+
+            if (RefreshItemCallback != null)
             {
-                ListItem.UpdateStatusCallback(ListItem, status);
+                RefreshItemCallback(m_items);
             }
         }
 
@@ -333,7 +343,11 @@ namespace MangaDl
                 StringBuilder url = new StringBuilder();
 
                 if (!GetPageCount())
+                {
+                    UpdateStatus(Status.ERROR);
                     return;
+                }
+
                 int downloadedImages = 0;
                 for (int i = 1; i <= m_pageCount; i++)
                 {

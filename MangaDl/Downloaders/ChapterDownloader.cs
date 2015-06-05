@@ -35,11 +35,11 @@ namespace MangaDl
             get { return m_progress; }
         }
 
-        //private Status m_status = Status.READY;
-        //public Status Status
-        //{
-        //    get { return m_status; }
-        //}
+        private Status m_status = Status.READY;
+        public Status Status
+        {
+            get { return m_status; }
+        }
 
         private bool m_isDownloading = false;
         public bool IsDownloading

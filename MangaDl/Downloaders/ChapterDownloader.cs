@@ -29,11 +29,11 @@ namespace MangaDl
             get { return m_id; }
         }
 
-        //private int m_progress = 0;
-        //public int Progress
-        //{
-        //    get { return m_progress; }
-        //}
+        private int m_progress = 0;
+        public int Progress
+        {
+            get { return m_progress; }
+        }
 
         //private Status m_status = Status.READY;
         //public Status Status

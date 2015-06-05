@@ -23,11 +23,11 @@ namespace MangaDl
         private string m_chapterPath;
         private HtmlWeb m_web;
 
-        //private uint m_id = 0;
-        //public uint Id
-        //{
-        //    get { return m_id; }
-        //}
+        private uint m_id = 0;
+        public uint Id
+        {
+            get { return m_id; }
+        }
 
         //private int m_progress = 0;
         //public int Progress

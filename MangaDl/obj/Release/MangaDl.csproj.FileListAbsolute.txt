@@ -1,0 +1,12 @@
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\bin\Release\MangaDl.exe.config
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\bin\Release\MangaDl.exe
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\bin\Release\MangaDl.pdb
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\bin\Release\HtmlAgilityPack.dll
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\bin\Release\HtmlAgilityPack.pdb
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\bin\Release\HtmlAgilityPack.xml
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\obj\Release\MangaDl.csprojResolveAssemblyReference.cache
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\obj\Release\MangaDl.Form1.resources
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\obj\Release\MangaDl.Properties.Resources.resources
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\obj\Release\MangaDl.csproj.GenerateResource.Cache
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\obj\Release\MangaDl.exe
+C:\Users\Anoob\documents\visual studio 2013\Projects\mangaDl\MangaDl\obj\Release\MangaDl.pdb

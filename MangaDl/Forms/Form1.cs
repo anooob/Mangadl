@@ -71,7 +71,7 @@ namespace MangaDl
                 foreach (var c in list)
                 {
                     //m_chapters.Add(c.Id, c);
-                    var item = new ChapterListViewItem(new string[]{ c.Name, "0", "Ready" });
+                    var item = new ChapterListViewItem(new string[]{ c.FullName, "0", "Ready" });
                     item.Chapter = c;
                     c.Items.Add(item);
                     item.Refresh();
@@ -222,6 +222,7 @@ namespace MangaDl
                     if (item != null)
                     {
                         chaptersToDownload.Add(item.Chapter);
+                        AddChapterToQueue(item.Chapter);
                     }
                 }
                 m_downloader.DownloadSelectedChapters(chaptersToDownload);

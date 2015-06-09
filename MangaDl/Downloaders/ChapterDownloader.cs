@@ -145,13 +145,15 @@ namespace MangaDl
                 }
                 m_urlPrefix = m_url.Split(new string[] { tokens.Last() }, StringSplitOptions.None)[0];
 
+                string format = "0000.##";
+
                 if (m_volumeNum != -1)
                 {
-                    m_chapterName = "Vol_" + m_volumeNum + "_Chapter_" + m_chapterNum;
+                    m_chapterName = "v_" + m_volumeNum.ToString("000") + "_c_" + m_chapterNum.ToString(format);
                 }
                 else 
                 {
-                    m_chapterName = "Chapter_" + m_chapterNum;
+                    m_chapterName = "c_" + m_chapterNum.ToString(format);
                 }
             }
         }
@@ -255,7 +257,7 @@ namespace MangaDl
                     return;
                 }
 
-                var chapterPath = Path.Combine(dir, m_chapterName);
+                var chapterPath = Path.Combine(dir, FullName);
 
                 if (chapterPath != null && !Directory.Exists(chapterPath))
                 {
@@ -342,7 +344,7 @@ namespace MangaDl
                     Directory.CreateDirectory(dir);
                 }
 
-                m_chapterPath = Path.Combine(dir, m_chapterName);
+                m_chapterPath = Path.Combine(dir, FullName);
 
                 if (m_chapterPath != null && !Directory.Exists(m_chapterPath))
                 {

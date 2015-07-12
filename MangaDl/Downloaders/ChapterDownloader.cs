@@ -160,13 +160,19 @@ namespace MangaDl
 
         private bool GetPageCount()
         {
-            HtmlDocument document = null;
+            HtmlDocument document = new HtmlDocument();
             try
             {
-                document = m_web.Load(m_url.ToString());
+                using (var webClient = new WebClientGZ())
+                {
+                    var site = webClient.DownloadString(m_url);
+                    document.LoadHtml(site);
+                }
             }
-            catch (WebException e)
+            catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 return false;
             }
 
@@ -206,6 +212,8 @@ namespace MangaDl
                 }
                 catch (Exception e)
                 {
+                    Log.WriteLine(e.Message);
+                    Log.WriteLine(e.StackTrace);
                     return false;
                 }
             }
@@ -265,7 +273,7 @@ namespace MangaDl
                     return;
                 }
 
-                HtmlDocument document;
+                HtmlDocument document = new HtmlDocument();
                 StringBuilder url = new StringBuilder();
 
                 if (!GetPageCount())
@@ -280,10 +288,16 @@ namespace MangaDl
 
                     try
                     {
-                        document = m_web.Load(url.ToString());
+                        using (var webClient = new WebClientGZ())
+                        {
+                            var site = webClient.DownloadString(m_url);
+                            document.LoadHtml(site);
+                        }
                     }
-                    catch (WebException e)
+                    catch (Exception e)
                     {
+                        Log.WriteLine(e.Message);
+                        Log.WriteLine(e.StackTrace);
                         return;
                     }
                     var imgUrl = GetImageUrl(document);
@@ -319,8 +333,10 @@ namespace MangaDl
                 }
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 UpdateStatus(Status.ERROR);
                 m_isValidating = false;
             }
@@ -350,8 +366,8 @@ namespace MangaDl
                 {
                     Directory.CreateDirectory(m_chapterPath);
                 }
-
-                HtmlDocument document;
+                var webClient = new WebClientGZ();
+                var document = new HtmlDocument();
                 StringBuilder url = new StringBuilder();
 
                 if (!GetPageCount())
@@ -368,10 +384,13 @@ namespace MangaDl
 
                     try
                     {
-                        document = m_web.Load(url.ToString());
+                        var site = webClient.DownloadString(url.ToString());
+                        document.LoadHtml(site);
                     }
-                    catch (WebException e)
+                    catch (Exception e)
                     {
+                        Log.WriteLine(e.Message);
+                        Log.WriteLine(e.StackTrace);
                         return;
                     }
                     var imgUrl = GetImageUrl(document);
@@ -395,8 +414,10 @@ namespace MangaDl
                 }
                 UpdateStatus(Status.READY);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 UpdateStatus(Status.ERROR);
                 m_isDownloading = false;
             }

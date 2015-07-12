@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Downloaders\ChapterDownloader.cs" />
-    <Compile Include="Config.cs" />
+    <Compile Include="Tools\Config.cs" />
     <Compile Include="Downloaders\Downloader.cs" />
     <Compile Include="Downloaders\DownloaderMangaFox.cs" />
     <Compile Include="Downloaders\Search.cs" />
@@ -60,9 +60,13 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Downloaders\Manga.cs" />
-    <Compile Include="Globals.cs" />
+    <Compile Include="Tools\Globals.cs" />
+    <Compile Include="Tools\Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\WebClientGZ.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

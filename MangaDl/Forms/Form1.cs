@@ -170,7 +170,7 @@ namespace MangaDl
             {
                 Config.SavePath = dialog.SelectedPath;
                 dlpathTextbox.Text = dialog.SelectedPath;
-                Program.SaveConfig();
+                Config.SaveConfig();
                 dialog.Dispose();
             }
         }
@@ -298,7 +298,7 @@ namespace MangaDl
             if (m_downloader != null && threadLimitTextBox.Text != "")
             {
                 Config.ThreadLimit = uint.Parse(threadLimitTextBox.Text);
-                Program.SaveConfig();
+                Config.SaveConfig();
                 m_downloader.RefreshQueue();
             }
         }

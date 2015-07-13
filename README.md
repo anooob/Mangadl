@@ -1,2 +1,2 @@
 # Mangadl
-A simple program that searcher and downloads manga from websites hosting them
+A simple program that searches and downloads manga from websites that are hosting them.

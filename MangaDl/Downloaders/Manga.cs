@@ -16,6 +16,7 @@ namespace MangaDl
             get { return m_name; }
         }
         private HtmlWeb m_web;
+
         private List<ChapterDownloader> m_chapters = new List<ChapterDownloader>();
         public List<ChapterDownloader> Chapters
         {
@@ -53,7 +54,7 @@ namespace MangaDl
             {
                 document = m_web.Load(m_url.ToString());
             }
-            catch (WebException e)
+            catch (Exception e)
             {
                 return;
             }
@@ -65,10 +66,10 @@ namespace MangaDl
 
                 foreach (var c in chapters)
                 {
-                    m_chapters.Add(new ChapterDownloader(c.Attributes["href"].Value, "image"));
+                    m_chapters.Add(new ChapterDownloaderMangaFox(c.Attributes["href"].Value, "image"));
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return;
             }

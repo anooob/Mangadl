@@ -23,7 +23,7 @@ namespace MangaDl
         private DownloadManagerMangaFox m_downloader;
         private Search m_search;
 
-        private Dictionary<string, ChapterDownloader> m_chapters = new Dictionary<string,ChapterDownloader>();
+        private Dictionary<string, ChapterDownloaderMangaFox> m_chapters = new Dictionary<string,ChapterDownloaderMangaFox>();
 
         public Form1()
         {
@@ -71,7 +71,7 @@ namespace MangaDl
                 foreach (var c in list)
                 {
                     //m_chapters.Add(c.Id, c);
-                    var item = new ChapterListViewItem(new string[]{ c.FullName, "0", "Ready" });
+                    var item = new ChapterListViewItem(new string[]{ c.ChapterName, "0", "Ready" });
                     item.Chapter = c;
                     c.Items.Add(item);
                     item.Refresh();
@@ -142,9 +142,7 @@ namespace MangaDl
                 if (item != null)
                 {
                     ClearChapterListView(chaptersListview);
-                   // m_downloader.AbortDownload();
-                    m_downloader.Url = item.Manga.Url;
-                    m_downloader.GetChapters();
+                    m_downloader.GetChapters(item.Manga);
                 }
             }
         }
@@ -177,7 +175,7 @@ namespace MangaDl
 
         private void AddChapterToQueue(ChapterDownloader chapter)
         {
-            var item = new ChapterListViewItem(new string[] { chapter.FullName, "0", "Ready" });
+            var item = new ChapterListViewItem(new string[] { chapter.ChapterName, "0", "Ready" });
             item.Chapter = chapter;
             chapter.Items.Add(item);
             item.Refresh();

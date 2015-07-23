@@ -9,59 +9,17 @@ using System.Text;
 using System.Threading;
 
 namespace MangaDl
-{
-    class ThreadWorker
-    {
-        public event EventHandler ThreadDone;
-        private Action m_task;
-        public Action Task
-        {
-            get { return m_task; }
-        }
-        public Thread Thread;
-
-        public ThreadWorker(Action task)
-        {
-            m_task = task;
-        }
-
-        public void Run()
-        {
-            try
-            {
-                if (m_task != null)
-                {
-                    m_task();
-                }
-                if (ThreadDone != null)
-                {
-                    ThreadDone(this, EventArgs.Empty);
-                }
-            }
-            catch (ThreadAbortException e)
-            {
-                //ThreadDone(this, EventArgs.Empty);
-            }
-        }
-    }
-
-    class DownloadManagerMangaFox : Downloader
+{    
+    class DownloadManagerMangaFox : DownloadManager
     {
         const string m_imgElementName = "image";
-        private string m_url;
 
         private Action<List<ChapterDownloader>> m_getChaptersCallback;
 
-        private Thread m_infoWorker;
-        private List<Thread> m_workers = new List<Thread>();
+        private ThreadWorker m_infoWorker;
+        private List<ThreadWorker> m_workers = new List<ThreadWorker>();
 
         private Dictionary<string, ThreadWorker> m_downloadQueue = new Dictionary<string, ThreadWorker>();
-
-        public string Url
-        {
-            get { return m_url; }
-            set { m_url = value; }
-        }
 
         public DownloadManagerMangaFox(Action<List<ChapterDownloader>> getChaptersCallback)
         {
@@ -89,14 +47,12 @@ namespace MangaDl
             var tw = (sender as ThreadWorker);
             if (tw != null)
             {
-                if (tw.Thread != null)
-                {
-                    m_workers.Remove(tw.Thread);
-                }
+                m_workers.Remove(tw);
+
                 var c = tw.Task.Target as ChapterDownloader;
                 if (c != null)
                 {
-                    m_downloadQueue.Remove(c.FullName);
+                    m_downloadQueue.Remove(c.ChapterName);
                 }
             }
             RefreshQueue();
@@ -124,11 +80,8 @@ namespace MangaDl
                 }
                 ThreadWorker tw = new ThreadWorker(c.ValidateChapter);
                 tw.ThreadDone += WorkerFinishedCallback;
-                var t = new Thread(tw.Run);
-                tw.Thread = t;
-                m_workers.Add(t);
-                t.IsBackground = true;
-                t.Start();
+                m_workers.Add(tw);
+                tw.Start();
             }
         }
 
@@ -142,11 +95,8 @@ namespace MangaDl
                     continue;
                 }
 
-                var t = new Thread(tw.Value.Run);
-                tw.Value.Thread = t;
-                m_workers.Add(t);
-                t.IsBackground = true;
-                t.Start();
+                m_workers.Add(tw.Value);
+                tw.Value.Start();
             }
         }
 
@@ -154,22 +104,20 @@ namespace MangaDl
         {
             foreach (var c in list)
             {
-                if (m_downloadQueue.ContainsKey(c.FullName))
+                if (m_downloadQueue.ContainsKey(c.ChapterName))
                 {
                     continue;
                 }
                 c.UpdateStatus(Status.WAITING);
                 ThreadWorker tw = new ThreadWorker(c.DownloadChapter);
                 tw.ThreadDone += WorkerFinishedCallback;
-                m_downloadQueue.Add(c.FullName, tw);
+                m_downloadQueue.Add(c.ChapterName, tw);
             }
             RefreshQueue();
         }
 
-        public void GetChapters()
+        public void GetChapters(Manga m)
         {
-            var m = new Manga(m_url);
-
             if(m_infoWorker != null && m_infoWorker.IsAlive)
             {
                 m_infoWorker.Abort();
@@ -177,9 +125,8 @@ namespace MangaDl
 
             ThreadWorker tw = new ThreadWorker(m.GetChapters);
             tw.ThreadDone += CallGetChaptersCallback;
-            m_infoWorker = new Thread(tw.Run);
-            m_infoWorker.IsBackground = true;
-            m_infoWorker.Start();
+            m_infoWorker = tw;
+            tw.Start();
         }
     }
 }

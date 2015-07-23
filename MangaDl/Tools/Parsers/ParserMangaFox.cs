@@ -28,7 +28,7 @@ namespace MangaDl
             return m_instance;
         }
 
-        public ParserMangaFox()
+        private ParserMangaFox()
         { 
         }
 

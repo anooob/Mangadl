@@ -17,7 +17,7 @@ namespace MangaDl
     public partial class Form1 : Form
     {
         private delegate void ChapterInfoDelegate(List<ChapterDownloader> list);
-        private delegate void SearchResultDelegate(List<Manga> list);
+        private delegate void SearchResultDelegate(List<MangaMangaFox> list);
         private delegate void RefreshItemDelegate(List<ChapterListViewItem> items);
 
         private DownloadManagerMangaFox m_downloader;
@@ -101,7 +101,7 @@ namespace MangaDl
             }
         }
 
-        private void OnSearchCompleted(List<Manga> list)
+        private void OnSearchCompleted(List<MangaMangaFox> list)
         {
             if (list == null)
                 return;
@@ -347,7 +347,7 @@ namespace MangaDl
 
     class MangaListViewItem : ListViewItem
     {
-        public Manga Manga;
+        public MangaMangaFox Manga;
 
         public MangaListViewItem(string[] cols)
             : base(cols)

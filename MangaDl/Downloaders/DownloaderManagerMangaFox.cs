@@ -34,7 +34,7 @@ namespace MangaDl
         {
             if (m_getChaptersCallback != null && sender != null)
             {
-                var manga = ((sender as ThreadWorker).Task.Target as Manga);
+                var manga = ((sender as ThreadWorker).Task.Target as MangaFox);
                 if (manga != null)
                 {
                     m_getChaptersCallback(manga.Chapters);
@@ -116,7 +116,7 @@ namespace MangaDl
             RefreshQueue();
         }
 
-        public void GetChapters(Manga m)
+        public void GetChapters(MangaFox m)
         {
             if(m_infoWorker != null && m_infoWorker.IsAlive)
             {

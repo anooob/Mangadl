@@ -12,12 +12,12 @@ namespace MangaDl
     {
         private const string m_searchPrefix = "http://mangafox.me/search.php?name_method=cw&name=";
         private const string m_searchPostfix = "&advopts=1";
-        private Action<List<Manga>> m_searchResultCallback;
+        private Action<List<MangaMangaFox>> m_searchResultCallback;
         private string m_searchUrl;
-        private List<Manga> m_searchResults = new List<Manga>();
+        private List<MangaMangaFox> m_searchResults = new List<MangaMangaFox>();
 
 
-        public Search(Action<List<Manga>> searchResultCallBack)
+        public Search(Action<List<MangaMangaFox>> searchResultCallBack)
         {
             m_searchResultCallback = searchResultCallBack;
         }
@@ -53,7 +53,7 @@ namespace MangaDl
                     var url = r.Attributes["href"].Value;
                     if (url != null)
                     {
-                        m_searchResults.Add(new Manga(url));
+                        m_searchResults.Add(new MangaMangaFox(url));
                     }
                 }
             }
@@ -65,7 +65,7 @@ namespace MangaDl
                     var url = r.Attributes["href"].Value;
                     if (url != null)
                     {
-                        m_searchResults.Add(new Manga(url));
+                        m_searchResults.Add(new MangaMangaFox(url));
                     }
                 }
             }

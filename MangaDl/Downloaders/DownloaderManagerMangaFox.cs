@@ -26,7 +26,7 @@ namespace MangaDl
             m_getChaptersCallback = getChaptersCallback;
         }
 
-        public DownloadManagerMangaFox()
+        private DownloadManagerMangaFox()
         {
         }
 

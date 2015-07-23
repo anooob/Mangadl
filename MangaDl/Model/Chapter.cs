@@ -75,8 +75,8 @@ namespace MangaDl
         public Chapter(string url)
         {
             m_url = url;
-            //TODO check for different sites
-            m_parser = new ParserMangaFox();
+            //TODO check for different sites, probably factory
+            m_parser = ParserMangaFox.GetInstance();
             m_parser.ParseUrl(this);
         }
 

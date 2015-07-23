@@ -7,7 +7,7 @@ namespace MangaDl
 {
     abstract class Parser
     {
-       // protected static object m_locker = new object();
+        protected static object m_locker = new object();
 
         protected abstract string GetChapterToken(string[] tokens);
         protected abstract string GetVolumeToken(string[] tokens);

@@ -11,22 +11,22 @@ namespace MangaDl
 {
     class ParserMangaFox : Parser
     {
-        //private static ParserMangaFox m_instance;
+        private static ParserMangaFox m_instance;
 
-        //public static ParserMangaFox GetInstance()
-        //{
-        //    if (m_instance == null)
-        //    {
-        //        lock (m_locker)
-        //        {
-        //            if (m_instance == null)
-        //            {
-        //                m_instance = new ParserMangaFox();
-        //            }
-        //        }
-        //    }
-        //    return m_instance;
-        //}
+        public static ParserMangaFox GetInstance()
+        {
+            if (m_instance == null)
+            {
+                lock (m_locker)
+                {
+                    if (m_instance == null)
+                    {
+                        m_instance = new ParserMangaFox();
+                    }
+                }
+            }
+            return m_instance;
+        }
 
         public ParserMangaFox()
         { 

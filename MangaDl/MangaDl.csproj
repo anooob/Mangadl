@@ -55,7 +55,7 @@
     <Compile Include="Tools\Config.cs" />
     <Compile Include="Downloaders\Downloader.cs" />
     <Compile Include="Downloaders\DownloaderManagerMangaFox.cs" />
-    <Compile Include="Downloaders\Search.cs" />
+    <Compile Include="Tools\Search.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>

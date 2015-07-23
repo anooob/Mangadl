@@ -40,7 +40,7 @@ namespace MangaDl
             ParseUrl();
         }
 
-        private override void ParseUrl()
+        protected override void ParseUrl()
         {
             var tokens = m_url.Split('/').ToList();
             tokens.RemoveAll(s => s == "");

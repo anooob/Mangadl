@@ -1,4 +1,5 @@
-﻿using MangaDl;
+﻿using HtmlAgilityPack;
+using MangaDl;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,24 +11,24 @@ namespace MangaDl
 {
     class ParserMangaFox : Parser
     {
-        private static ParserMangaFox m_instance;
+        //private static ParserMangaFox m_instance;
 
-        public static ParserMangaFox GetInstance()
-        {
-            if (m_instance == null)
-            {
-                lock (m_locker)
-                {
-                    if (m_instance == null)
-                    {
-                        m_instance = new ParserMangaFox();
-                    }
-                }
-            }
-            return m_instance;
-        }
+        //public static ParserMangaFox GetInstance()
+        //{
+        //    if (m_instance == null)
+        //    {
+        //        lock (m_locker)
+        //        {
+        //            if (m_instance == null)
+        //            {
+        //                m_instance = new ParserMangaFox();
+        //            }
+        //        }
+        //    }
+        //    return m_instance;
+        //}
 
-        private ParserMangaFox()
+        public ParserMangaFox()
         { 
         }
 
@@ -95,6 +96,31 @@ namespace MangaDl
                     chapter.ChapterName = "c_" + chapter.ChapterNum.ToString(format);
                 }
             }
+        }
+
+        public override bool GetPageCount(Chapter chapter)
+        {
+            HtmlDocument document = new HtmlDocument();
+            try
+            {
+                using (var webClient = new WebClientGZ())
+                {
+                    var site = webClient.DownloadString(chapter.Url);
+                    document.LoadHtml(site);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
+                chapter.PageCount = -1;
+                return false;
+            }
+
+            var node = document.DocumentNode.SelectNodes("//select[@class='m']")[0];
+            chapter.PageCount = (node.ChildNodes.Count - 5) / 2;
+
+            return true;
         }
     }
 }

@@ -67,38 +67,22 @@ namespace MangaDl
         public int PageCount
         {
             get { return m_pageCount; }
+            set { m_pageCount = value; }
         }
+
+        private Parser m_parser;
 
         public Chapter(string url)
         {
             m_url = url;
             //TODO check for different sites
-            ParserMangaFox.GetInstance().ParseUrl(this);
+            m_parser = new ParserMangaFox();
+            m_parser.ParseUrl(this);
         }
 
         public bool GetPageCount()
         {
-            HtmlDocument document = new HtmlDocument();
-            try
-            {
-                using (var webClient = new WebClientGZ())
-                {
-                    var site = webClient.DownloadString(m_url);
-                    document.LoadHtml(site);
-                }
-            }
-            catch (Exception e)
-            {
-                Log.WriteLine(e.Message);
-                Log.WriteLine(e.StackTrace);
-                m_pageCount = -1;
-                return false;
-            }
-
-            var node = document.DocumentNode.SelectNodes("//select[@class='m']")[0];
-            m_pageCount = (node.ChildNodes.Count - 5) / 2;
-
-            return true;
+            return m_parser.GetPageCount(this);
         }
     }
 }

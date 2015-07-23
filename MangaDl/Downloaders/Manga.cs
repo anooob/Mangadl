@@ -8,6 +8,6 @@ namespace MangaDl
     abstract class Manga
     {
         protected abstract void ParseUrl();
-        protected abstract void GetChapters();
+        public abstract void GetChapters();
     }
 }

@@ -136,7 +136,7 @@ namespace MangaDl
                     {
                         using (var webClient = new WebClientGZ())
                         {
-                            var site = webClient.DownloadString(m_chapter.Url);
+                            var site = webClient.DownloadString(url.ToString());
                             document.LoadHtml(site);
                         }
                     }

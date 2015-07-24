@@ -10,8 +10,8 @@ namespace MangaDl
     class ThreadWorker
     {
         public event EventHandler ThreadDone;
-        private Action m_task;
 
+        private Action m_task;
         public Action Task
         {
             get { return m_task; }
@@ -70,6 +70,14 @@ namespace MangaDl
             if (m_thread != null)
             {
                 m_thread.Abort();
+            }
+        }
+
+        public void Join()
+        {
+            if (m_thread != null)
+            {
+                m_thread.Join();
             }
         }
     }

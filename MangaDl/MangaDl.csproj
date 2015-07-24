@@ -70,7 +70,7 @@
     <Compile Include="Tools\Parsers\Parser.cs" />
     <Compile Include="Tools\Parsers\ParserMangaFox.cs" />
     <Compile Include="Tools\ThreadWorker.cs" />
-    <Compile Include="Tools\WebClientGZ.cs">
+    <Compile Include="Tools\Extensions\WebClientGZ.cs">
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="Forms\Form1.resx">

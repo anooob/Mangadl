@@ -32,14 +32,19 @@ namespace MangaDl
 
         private void ParseDocument()
         {
-            var web = new HtmlWeb();
-            HtmlDocument document = null;
+            HtmlDocument document = new HtmlDocument();
             try
             {
-                document = web.Load(m_searchUrl);
+                using (var webClient = new WebClientGZ())
+                {
+                    var site = webClient.DownloadString(m_searchUrl);
+                    document.LoadHtml(site);
+                }
             }
-            catch (WebException e)
+            catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 return;
             }
             var table = document.GetElementbyId("listing");
@@ -79,9 +84,7 @@ namespace MangaDl
 
             var tw = new ThreadWorker(ParseDocument);
             tw.ThreadDone += CallSearchResultsCallback;
-            var t = new Thread(tw.Run);
-            t.IsBackground = true;
-            t.Start();
+            tw.Start();
         }
     }
 }

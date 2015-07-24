@@ -34,15 +34,15 @@ namespace MangaDl
 
             chaptersListview.View = View.Details;
             chaptersListview.FullRowSelect = true;
-            chaptersListview.Columns.Add("Name", 150);
-            chaptersListview.Columns.Add("Progress", 55);
-            chaptersListview.Columns.Add("Status", 95);
+            chaptersListview.Columns.Add("Name", 260);
+            chaptersListview.Columns.Add("Progress", 60);
+            chaptersListview.Columns.Add("Status", 100);
 
             queueListview.View = View.Details;
             queueListview.FullRowSelect = true;
-            queueListview.Columns.Add("Name", 150);
-            queueListview.Columns.Add("Progress", 55);
-            queueListview.Columns.Add("Status", 95);
+            queueListview.Columns.Add("Name", 260);
+            queueListview.Columns.Add("Progress", 60);
+            queueListview.Columns.Add("Status", 100);
 
             searchListview.View = View.Details;
             searchListview.FullRowSelect = true;
@@ -232,14 +232,6 @@ namespace MangaDl
 
         }
 
-        private void abortAllButton_Click(object sender, EventArgs e)
-        {
-            if (m_downloader != null)
-            {
-                m_downloader.AbortDownload();
-            }
-        }
-
         private void SearchManga()
         {
             searchListview.Items.Clear();
@@ -298,6 +290,14 @@ namespace MangaDl
                 Config.ThreadLimit = uint.Parse(threadLimitTextBox.Text);
                 Config.SaveConfig();
                 m_downloader.RefreshQueue();
+            }
+        }
+
+        private void abortAllButton_Click(object sender, EventArgs e)
+        {
+            if (m_downloader != null)
+            {
+                m_downloader.AbortDownload();
             }
         }
     }

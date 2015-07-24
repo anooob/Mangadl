@@ -43,6 +43,7 @@
             this.validateButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.abortAllButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.threadLimitButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -57,7 +58,7 @@
             // loadButton
             // 
             this.loadButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.loadButton.Location = new System.Drawing.Point(315, 74);
+            this.loadButton.Location = new System.Drawing.Point(314, 74);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(96, 23);
             this.loadButton.TabIndex = 0;
@@ -69,7 +70,7 @@
             // 
             this.urlTextBox.Location = new System.Drawing.Point(9, 19);
             this.urlTextBox.Name = "urlTextBox";
-            this.urlTextBox.Size = new System.Drawing.Size(300, 20);
+            this.urlTextBox.Size = new System.Drawing.Size(299, 20);
             this.urlTextBox.TabIndex = 1;
             this.urlTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.urlTextBox_KeyPress);
             // 
@@ -85,7 +86,7 @@
             // downloadLabel
             // 
             this.downloadLabel.AutoSize = true;
-            this.downloadLabel.Location = new System.Drawing.Point(414, 3);
+            this.downloadLabel.Location = new System.Drawing.Point(413, 3);
             this.downloadLabel.Name = "downloadLabel";
             this.downloadLabel.Size = new System.Drawing.Size(67, 13);
             this.downloadLabel.TabIndex = 4;
@@ -93,15 +94,15 @@
             // 
             // dlpathTextbox
             // 
-            this.dlpathTextbox.Location = new System.Drawing.Point(417, 19);
+            this.dlpathTextbox.Location = new System.Drawing.Point(416, 19);
             this.dlpathTextbox.Name = "dlpathTextbox";
             this.dlpathTextbox.ReadOnly = true;
-            this.dlpathTextbox.Size = new System.Drawing.Size(300, 20);
+            this.dlpathTextbox.Size = new System.Drawing.Size(450, 20);
             this.dlpathTextbox.TabIndex = 5;
             // 
             // selectFolderButton
             // 
-            this.selectFolderButton.Location = new System.Drawing.Point(417, 45);
+            this.selectFolderButton.Location = new System.Drawing.Point(416, 45);
             this.selectFolderButton.Name = "selectFolderButton";
             this.selectFolderButton.Size = new System.Drawing.Size(96, 23);
             this.selectFolderButton.TabIndex = 6;
@@ -111,15 +112,15 @@
             // 
             // chaptersListview
             // 
-            this.chaptersListview.Location = new System.Drawing.Point(417, 74);
+            this.chaptersListview.Location = new System.Drawing.Point(416, 74);
             this.chaptersListview.Name = "chaptersListview";
-            this.chaptersListview.Size = new System.Drawing.Size(300, 433);
+            this.chaptersListview.Size = new System.Drawing.Size(450, 445);
             this.chaptersListview.TabIndex = 7;
             this.chaptersListview.UseCompatibleStateImageBehavior = false;
             // 
             // downloadButton
             // 
-            this.downloadButton.Location = new System.Drawing.Point(723, 74);
+            this.downloadButton.Location = new System.Drawing.Point(872, 74);
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(96, 23);
             this.downloadButton.TabIndex = 8;
@@ -129,7 +130,7 @@
             // 
             // downloadAllButton
             // 
-            this.downloadAllButton.Location = new System.Drawing.Point(723, 103);
+            this.downloadAllButton.Location = new System.Drawing.Point(872, 103);
             this.downloadAllButton.Name = "downloadAllButton";
             this.downloadAllButton.Size = new System.Drawing.Size(96, 23);
             this.downloadAllButton.TabIndex = 10;
@@ -141,7 +142,7 @@
             // 
             this.searchListview.Location = new System.Drawing.Point(9, 74);
             this.searchListview.Name = "searchListview";
-            this.searchListview.Size = new System.Drawing.Size(300, 433);
+            this.searchListview.Size = new System.Drawing.Size(299, 445);
             this.searchListview.TabIndex = 11;
             this.searchListview.UseCompatibleStateImageBehavior = false;
             this.searchListview.DoubleClick += new System.EventHandler(this.searchListview_DoubleClick);
@@ -158,7 +159,7 @@
             // 
             // openFolderButton
             // 
-            this.openFolderButton.Location = new System.Drawing.Point(519, 45);
+            this.openFolderButton.Location = new System.Drawing.Point(518, 45);
             this.openFolderButton.Name = "openFolderButton";
             this.openFolderButton.Size = new System.Drawing.Size(96, 23);
             this.openFolderButton.TabIndex = 13;
@@ -168,7 +169,7 @@
             // 
             // validateButton
             // 
-            this.validateButton.Location = new System.Drawing.Point(723, 132);
+            this.validateButton.Location = new System.Drawing.Point(872, 132);
             this.validateButton.Name = "validateButton";
             this.validateButton.Size = new System.Drawing.Size(96, 23);
             this.validateButton.TabIndex = 14;
@@ -188,6 +189,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.abortAllButton);
             this.tabPage1.Controls.Add(this.urlLabel);
             this.tabPage1.Controls.Add(this.validateButton);
             this.tabPage1.Controls.Add(this.loadButton);
@@ -209,6 +211,16 @@
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // abortAllButton
+            // 
+            this.abortAllButton.Location = new System.Drawing.Point(872, 161);
+            this.abortAllButton.Name = "abortAllButton";
+            this.abortAllButton.Size = new System.Drawing.Size(96, 23);
+            this.abortAllButton.TabIndex = 15;
+            this.abortAllButton.Text = "Abort All";
+            this.abortAllButton.UseVisualStyleBackColor = true;
+            this.abortAllButton.Click += new System.EventHandler(this.abortAllButton_Click);
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.threadLimitButton);
@@ -226,7 +238,7 @@
             // 
             // threadLimitButton
             // 
-            this.threadLimitButton.Location = new System.Drawing.Point(653, 33);
+            this.threadLimitButton.Location = new System.Drawing.Point(574, 33);
             this.threadLimitButton.Name = "threadLimitButton";
             this.threadLimitButton.Size = new System.Drawing.Size(96, 23);
             this.threadLimitButton.TabIndex = 4;
@@ -237,7 +249,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(544, 19);
+            this.label2.Location = new System.Drawing.Point(465, 19);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(61, 13);
             this.label2.TabIndex = 3;
@@ -245,7 +257,7 @@
             // 
             // threadLimitTextBox
             // 
-            this.threadLimitTextBox.Location = new System.Drawing.Point(547, 35);
+            this.threadLimitTextBox.Location = new System.Drawing.Point(468, 35);
             this.threadLimitTextBox.Name = "threadLimitTextBox";
             this.threadLimitTextBox.Size = new System.Drawing.Size(100, 20);
             this.threadLimitTextBox.TabIndex = 2;
@@ -264,7 +276,7 @@
             // 
             this.queueListview.Location = new System.Drawing.Point(9, 19);
             this.queueListview.Name = "queueListview";
-            this.queueListview.Size = new System.Drawing.Size(529, 516);
+            this.queueListview.Size = new System.Drawing.Size(450, 516);
             this.queueListview.TabIndex = 0;
             this.queueListview.UseCompatibleStateImageBehavior = false;
             // 
@@ -309,6 +321,7 @@
         private System.Windows.Forms.Button threadLimitButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox threadLimitTextBox;
+        private System.Windows.Forms.Button abortAllButton;
     }
 }
 

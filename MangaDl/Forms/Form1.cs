@@ -295,10 +295,10 @@ namespace MangaDl
 
         private void abortAllButton_Click(object sender, EventArgs e)
         {
-            if (m_downloader != null)
-            {
-                m_downloader.AbortDownload();
-            }
+            //if (m_downloader != null)
+            //{
+            //    m_downloader.AbortDownload();
+            //}
         }
     }
 

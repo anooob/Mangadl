@@ -43,7 +43,6 @@
             this.validateButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.abortAllButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.threadLimitButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -189,7 +188,6 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.abortAllButton);
             this.tabPage1.Controls.Add(this.urlLabel);
             this.tabPage1.Controls.Add(this.validateButton);
             this.tabPage1.Controls.Add(this.loadButton);
@@ -210,16 +208,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // abortAllButton
-            // 
-            this.abortAllButton.Location = new System.Drawing.Point(872, 161);
-            this.abortAllButton.Name = "abortAllButton";
-            this.abortAllButton.Size = new System.Drawing.Size(96, 23);
-            this.abortAllButton.TabIndex = 15;
-            this.abortAllButton.Text = "Abort All";
-            this.abortAllButton.UseVisualStyleBackColor = true;
-            this.abortAllButton.Click += new System.EventHandler(this.abortAllButton_Click);
             // 
             // tabPage2
             // 
@@ -321,7 +309,6 @@
         private System.Windows.Forms.Button threadLimitButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox threadLimitTextBox;
-        private System.Windows.Forms.Button abortAllButton;
     }
 }
 

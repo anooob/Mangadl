@@ -7,23 +7,6 @@ using System.Text;
 
 namespace MangaDl
 {
-    enum Status
-    { 
-        READY,
-        DOWNLOADING,
-        ERROR,
-        VALIDATING,
-        INCOMPLETE,
-        WAITING,
-        DEFAULT
-    }
-
-    enum MangaSite
-    { 
-        MANGAFOX,
-        MANGASEE
-    }
-
     static class Config
     {
         public static string ConfigFile = "config.txt";

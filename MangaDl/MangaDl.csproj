@@ -51,11 +51,12 @@
     <Compile Include="Downloaders\ChapterDownloaderBase.cs" />
     <Compile Include="Downloaders\ChapterDownloaderMangaFox.cs" />
     <Compile Include="Downloaders\ChapterDownloaderMangaSee.cs" />
-    <Compile Include="Downloaders\MangaBase.cs" />
-    <Compile Include="Downloaders\MangaMangaSee.cs" />
+    <Compile Include="Model\MangaBase.cs" />
+    <Compile Include="Model\MangaMangaSee.cs" />
     <Compile Include="Model\Chapter.cs" />
     <Compile Include="Tools\Config.cs" />
     <Compile Include="Downloaders\DownloaderManager.cs" />
+    <Compile Include="Tools\Constants.cs" />
     <Compile Include="Tools\Extensions\ChapterListViewItem.cs" />
     <Compile Include="Tools\Extensions\MangaListViewItem.cs" />
     <Compile Include="Tools\Extensions\SiteSelectorItem.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Downloaders\MangaMangaFox.cs" />
+    <Compile Include="Model\MangaMangaFox.cs" />
     <Compile Include="Tools\Globals.cs" />
     <Compile Include="Tools\Log.cs" />
     <Compile Include="Program.cs" />

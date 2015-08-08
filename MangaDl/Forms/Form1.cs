@@ -20,7 +20,7 @@ namespace MangaDl
         private delegate void SearchResultDelegate(List<MangaBase> list);
         private delegate void RefreshItemDelegate(List<ChapterListViewItem> items);
 
-        private DownloadManagerMangaFox m_downloader;
+        private DownloadManager m_downloader;
         private SearchMangaFox m_mfSearch;
         private SearchMangaSee m_msSearch;
 
@@ -30,7 +30,7 @@ namespace MangaDl
 
         public Form1()
         {
-            m_downloader = new DownloadManagerMangaFox(OnGetChapterInfoCompleted);
+            m_downloader = new DownloadManager(OnGetChapterInfoCompleted);
 
             InitializeComponent();
             dlpathTextbox.Text = Config.SavePath;
@@ -55,7 +55,7 @@ namespace MangaDl
 
             threadLimitTextBox.Text = Config.ThreadLimit.ToString();
 
-            m_downloader = new DownloadManagerMangaFox(OnGetChapterInfoCompleted);
+            m_downloader = new DownloadManager(OnGetChapterInfoCompleted);
 
             m_mfSearch = new SearchMangaFox(OnSearchCompleted);
             m_msSearch = new SearchMangaSee(OnSearchCompleted);

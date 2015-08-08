@@ -91,6 +91,108 @@ namespace MangaDl
             }
         }
 
+        protected bool CheckImage(string imgUrl)
+        {
+            string imgName = imgUrl.Split('/').Last();
+            string file = Path.Combine(m_chapterPath, imgName);
+            if (File.Exists(file))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void ValidateChapter()
+        {
+            try
+            {
+                UpdateProgress(0);
+                UpdateStatus(Status.VALIDATING);
+                m_isValidating = true;
+
+                var dir = CreateDir();
+
+                var chapterPath = Path.Combine(dir, m_chapter.FullName);
+
+                if (chapterPath != null && !Directory.Exists(chapterPath))
+                {
+                    UpdateStatus(Status.INCOMPLETE);
+                    return;
+                }
+
+                HtmlDocument document = new HtmlDocument();
+                StringBuilder url = new StringBuilder();
+
+                if (m_chapter == null || !m_chapter.GetPageCount())
+                    return;
+
+                int pageCount = m_chapter.PageCount;
+
+                int foundImages = 0;
+
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    CreatePageUrl(url, i);
+                    try
+                    {
+                        using (var webClient = new WebClientGZ())
+                        {
+                            var site = webClient.DownloadString(url.ToString());
+                            document.LoadHtml(site);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WriteLine(e.Message);
+                        Log.WriteLine(e.StackTrace);
+                        return;
+                    }
+                    var imgUrl = GetImageUrl(document);
+                    if (imgUrl == null)
+                    {
+                        return;
+                    }
+
+                    if (!Directory.Exists(chapterPath))
+                    {
+                        throw new Exception("File not found.");
+                    }
+
+                    string imgName = imgUrl.Split('/').Last();
+                    string file = Path.Combine(chapterPath, imgName);
+                    if (File.Exists(file))
+                    {
+                        foundImages++;
+
+                    }
+
+                    float progress = (float)foundImages / (float)pageCount * 100f;
+                    UpdateProgress((int)progress);
+                }
+
+                if (foundImages == pageCount)
+                {
+                    UpdateStatus(Status.READY);
+                }
+                else
+                {
+                    UpdateStatus(Status.INCOMPLETE);
+                }
+
+            }
+            catch (Exception e)
+            {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
+                UpdateStatus(Status.ERROR);
+                m_isValidating = false;
+            }
+            finally
+            {
+                m_isValidating = false;
+            }
+        }
+
         protected bool DownloadImage(string url)
         {
             string imgName = url.Split('/').Last();
@@ -200,7 +302,7 @@ namespace MangaDl
         protected abstract string GetImageUrl(HtmlDocument document);
         protected abstract string CreateDir();
         protected abstract void CreatePageUrl(StringBuilder url, int pageNum);
-        public abstract void ValidateChapter();
+        //public abstract void ValidateChapter();
 
     }
 }

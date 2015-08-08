@@ -55,8 +55,7 @@
     <Compile Include="Downloaders\MangaMangaSee.cs" />
     <Compile Include="Model\Chapter.cs" />
     <Compile Include="Tools\Config.cs" />
-    <Compile Include="Downloaders\DownloadManagerBase.cs" />
-    <Compile Include="Downloaders\DownloaderManagerMangaFox.cs" />
+    <Compile Include="Downloaders\DownloaderManager.cs" />
     <Compile Include="Tools\Extensions\ChapterListViewItem.cs" />
     <Compile Include="Tools\Extensions\MangaListViewItem.cs" />
     <Compile Include="Tools\Extensions\SiteSelectorItem.cs" />

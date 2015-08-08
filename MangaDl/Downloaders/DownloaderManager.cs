@@ -10,7 +10,7 @@ using System.Threading;
 
 namespace MangaDl
 {    
-    class DownloadManagerMangaFox : DownloadManagerBase
+    class DownloadManager
     {
         private Action<List<ChapterDownloaderBase>> m_getChaptersCallback;
 
@@ -19,12 +19,12 @@ namespace MangaDl
 
         private Dictionary<string, ThreadWorker> m_downloadQueue = new Dictionary<string, ThreadWorker>();
 
-        public DownloadManagerMangaFox(Action<List<ChapterDownloaderBase>> getChaptersCallback)
+        public DownloadManager(Action<List<ChapterDownloaderBase>> getChaptersCallback)
         {
             m_getChaptersCallback = getChaptersCallback;
         }
 
-        public DownloadManagerMangaFox()
+        public DownloadManager()
         {
         }
 

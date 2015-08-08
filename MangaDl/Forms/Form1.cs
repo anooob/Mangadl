@@ -16,14 +16,16 @@ namespace MangaDl
 {
     public partial class Form1 : Form
     {
-        private delegate void ChapterInfoDelegate(List<ChapterDownloader> list);
-        private delegate void SearchResultDelegate(List<MangaMangaFox> list);
+        private delegate void ChapterInfoDelegate(List<ChapterDownloaderBase> list);
+        private delegate void SearchResultDelegate(List<MangaBase> list);
         private delegate void RefreshItemDelegate(List<ChapterListViewItem> items);
 
         private DownloadManagerMangaFox m_downloader;
-        private Search m_search;
+        private SearchMangaFox m_mfSearch;
 
-        private Dictionary<string, ChapterDownloaderMangaFox> m_chapters = new Dictionary<string,ChapterDownloaderMangaFox>();
+        private SearchBase m_search;
+
+        private Dictionary<string, ChapterDownloaderMangaFox> m_chapters = new Dictionary<string, ChapterDownloaderMangaFox>();
 
         public Form1()
         {
@@ -51,12 +53,21 @@ namespace MangaDl
             searchListview.Activation = ItemActivation.TwoClick;
 
             threadLimitTextBox.Text = Config.ThreadLimit.ToString();
-            
+
             m_downloader = new DownloadManagerMangaFox(OnGetChapterInfoCompleted);
-            m_search = new Search(OnSearchCompleted);
+
+            m_mfSearch = new SearchMangaFox(OnSearchCompleted);
+            m_search = m_mfSearch;
+
+            var mfItem = new SiteSelectorItem(MangaSite.MANGAFOX, "MangaFox");
+            var msItem = new SiteSelectorItem(MangaSite.MANGASEE, "MangaSee");
+
+            siteSelectCombobox.Items.Add(mfItem);
+            siteSelectCombobox.Items.Add(msItem);
+            siteSelectCombobox.SelectedIndex = 0;
         }
 
-        private void OnGetChapterInfoCompleted(List<ChapterDownloader> list)
+        private void OnGetChapterInfoCompleted(List<ChapterDownloaderBase> list)
         {
             if (list == null)
                 return;
@@ -66,12 +77,12 @@ namespace MangaDl
                 ChapterInfoDelegate call = new ChapterInfoDelegate(OnGetChapterInfoCompleted);
                 chaptersListview.Invoke(call, list);
             }
-            else 
+            else
             {
                 foreach (var c in list)
                 {
                     //m_chapters.Add(c.Id, c);
-                    var item = new ChapterListViewItem(new string[]{ c.ChapterName, "0", "Ready" });
+                    var item = new ChapterListViewItem(new string[] { c.ChapterName, "0", "Ready" });
                     item.Chapter = c;
                     c.Items.Add(item);
                     item.Refresh();
@@ -101,7 +112,7 @@ namespace MangaDl
             }
         }
 
-        private void OnSearchCompleted(List<MangaMangaFox> list)
+        private void OnSearchCompleted(List<MangaBase> list)
         {
             if (list == null)
                 return;
@@ -159,7 +170,7 @@ namespace MangaDl
                 LoadChapters();
             }
         }
-        
+
         private void selectFolderButton_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
@@ -173,7 +184,7 @@ namespace MangaDl
             }
         }
 
-        private void AddChapterToQueue(ChapterDownloader chapter)
+        private void AddChapterToQueue(ChapterDownloaderBase chapter)
         {
             var item = new ChapterListViewItem(new string[] { chapter.ChapterName, "0", "Ready" });
             item.Chapter = chapter;
@@ -188,7 +199,7 @@ namespace MangaDl
         {
             if (m_downloader != null)
             {
-                var chaptersToDownload = new List<ChapterDownloader>();
+                var chaptersToDownload = new List<ChapterDownloaderBase>();
 
                 foreach (var c in chaptersListview.SelectedItems)
                 {
@@ -212,7 +223,7 @@ namespace MangaDl
         {
             if (m_downloader != null)
             {
-                var chaptersToDownload = new List<ChapterDownloader>();
+                var chaptersToDownload = new List<ChapterDownloaderBase>();
 
                 foreach (var c in chaptersListview.Items)
                 {
@@ -263,7 +274,7 @@ namespace MangaDl
 
         private void validateButton_Click(object sender, EventArgs e)
         {
-            var chapters = new List<ChapterDownloader>();
+            var chapters = new List<ChapterDownloaderBase>();
             foreach (var c in chaptersListview.Items)
             {
                 var item = (c as ChapterListViewItem);
@@ -300,57 +311,10 @@ namespace MangaDl
             //    m_downloader.AbortDownload();
             //}
         }
-    }
 
-    class ChapterListViewItem : ListViewItem
-    {
-        public ChapterDownloader Chapter;
-        private Status m_status;
-
-        public void Refresh()
+        private void siteSelectCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Chapter != null)
-            {
-                SubItems[1].Text = Chapter.Progress.ToString();
-                if (m_status != Chapter.Status)
-                {
-                    m_status = Chapter.Status;
-                    switch (m_status)
-                    {
-                        case Status.READY:
-                            SubItems[2].Text = "Ready";
-                            break;
-                        case Status.DOWNLOADING:
-                            SubItems[2].Text = "Downloading";
-                            break;
-                        case Status.ERROR:
-                            SubItems[2].Text = "Error";
-                            break;
-                        case Status.VALIDATING:
-                            SubItems[2].Text = "Validating";
-                            break;
-                        case Status.INCOMPLETE:
-                            SubItems[2].Text = "Incomplete";
-                            break;
-                        case Status.WAITING:
-                            SubItems[2].Text = "Waiting";
-                            break;
-                    }
-                }
-            }
+            //TODO: change search and downloader
         }
-
-        public ChapterListViewItem(string[] cols)
-            : base(cols)
-        { }
-    }
-
-    class MangaListViewItem : ListViewItem
-    {
-        public MangaMangaFox Manga;
-
-        public MangaListViewItem(string[] cols)
-            : base(cols)
-        { }
     }
 }

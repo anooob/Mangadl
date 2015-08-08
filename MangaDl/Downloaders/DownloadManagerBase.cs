@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MangaDl
 {
-    abstract class DownloadManager
+    abstract class DownloadManagerBase
     {
     }
 }

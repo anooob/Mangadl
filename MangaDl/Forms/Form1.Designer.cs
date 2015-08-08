@@ -43,6 +43,7 @@
             this.validateButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.siteSelectCombobox = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.threadLimitButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -188,6 +189,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.siteSelectCombobox);
             this.tabPage1.Controls.Add(this.urlLabel);
             this.tabPage1.Controls.Add(this.validateButton);
             this.tabPage1.Controls.Add(this.loadButton);
@@ -208,6 +210,15 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // siteSelectCombobox
+            // 
+            this.siteSelectCombobox.FormattingEnabled = true;
+            this.siteSelectCombobox.Location = new System.Drawing.Point(111, 45);
+            this.siteSelectCombobox.Name = "siteSelectCombobox";
+            this.siteSelectCombobox.Size = new System.Drawing.Size(197, 21);
+            this.siteSelectCombobox.TabIndex = 16;
+            this.siteSelectCombobox.SelectedIndexChanged += new System.EventHandler(this.siteSelectCombobox_SelectedIndexChanged);
             // 
             // tabPage2
             // 
@@ -309,6 +320,7 @@
         private System.Windows.Forms.Button threadLimitButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox threadLimitTextBox;
+        private System.Windows.Forms.ComboBox siteSelectCombobox;
     }
 }
 

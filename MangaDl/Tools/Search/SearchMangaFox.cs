@@ -8,29 +8,16 @@ using System.Threading;
 
 namespace MangaDl
 {
-    class Search
+    class SearchMangaFox : SearchBase
     {
-        private const string m_searchPrefix = "http://mangafox.me/search.php?name_method=cw&name=";
-        private const string m_searchPostfix = "&advopts=1";
-        private Action<List<MangaMangaFox>> m_searchResultCallback;
-        private string m_searchUrl;
-        private List<MangaMangaFox> m_searchResults = new List<MangaMangaFox>();
-
-
-        public Search(Action<List<MangaMangaFox>> searchResultCallBack)
+        public SearchMangaFox(Action<List<MangaBase>> searchResultCallBack)
+            : base(searchResultCallBack)
         {
-            m_searchResultCallback = searchResultCallBack;
+            m_searchPrefix = "http://mangafox.me/search.php?name_method=cw&name=";
+            m_searchPostfix = "&advopts=1";
         }
 
-        private void CallSearchResultsCallback(object sender, EventArgs e)
-        {
-            if (m_searchResultCallback != null)
-            {
-                m_searchResultCallback(m_searchResults);
-            }
-        }
-
-        private void ParseDocument()
+        protected override void ParseResultDocument()
         {
             HtmlDocument document = new HtmlDocument();
             try
@@ -74,17 +61,6 @@ namespace MangaDl
                     }
                 }
             }
-        }
-
-        public void GetSearchResults(string query)
-        {
-            var q = query.Replace(' ', '+').ToLower();
-            m_searchUrl = m_searchPrefix + q + m_searchPostfix;
-            m_searchResults.Clear();
-
-            var tw = new ThreadWorker(ParseDocument);
-            tw.ThreadDone += CallSearchResultsCallback;
-            tw.Start();
         }
     }
 }

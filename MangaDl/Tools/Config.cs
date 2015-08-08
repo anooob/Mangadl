@@ -18,6 +18,12 @@ namespace MangaDl
         DEFAULT
     }
 
+    enum MangaSite
+    { 
+        MANGAFOX,
+        MANGASEE
+    }
+
     static class Config
     {
         public static string ConfigFile = "config.txt";

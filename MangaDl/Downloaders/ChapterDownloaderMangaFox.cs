@@ -12,7 +12,7 @@ using System.Threading;
 
 namespace MangaDl
 {
-    class ChapterDownloaderMangaFox : ChapterDownloader
+    class ChapterDownloaderMangaFox : ChapterDownloaderBase
     {
         private string m_imgElementName;
         private string m_chapterPath;

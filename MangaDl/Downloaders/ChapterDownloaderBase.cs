@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MangaDl
 {
-    abstract class ChapterDownloader
+    abstract class ChapterDownloaderBase
     {
         protected Chapter m_chapter;
         public Chapter Chapter

@@ -8,17 +8,13 @@ using System.Threading;
 
 namespace MangaDl
 {
-    class MangaMangaFox : Manga
+    class MangaMangaFox : MangaBase
     {
-        private string m_name;
-        public string Name
-        {
-            get { return m_name; }
-        }
+
         private HtmlWeb m_web;
 
-        private List<ChapterDownloader> m_chapters = new List<ChapterDownloader>();
-        public List<ChapterDownloader> Chapters
+        private List<ChapterDownloaderBase> m_chapters = new List<ChapterDownloaderBase>();
+        public List<ChapterDownloaderBase> Chapters
         {
             get { return m_chapters; }
         }

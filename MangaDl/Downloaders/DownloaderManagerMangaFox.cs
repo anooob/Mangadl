@@ -10,18 +10,18 @@ using System.Threading;
 
 namespace MangaDl
 {    
-    class DownloadManagerMangaFox : DownloadManager
+    class DownloadManagerMangaFox : DownloadManagerBase
     {
         const string m_imgElementName = "image";
 
-        private Action<List<ChapterDownloader>> m_getChaptersCallback;
+        private Action<List<ChapterDownloaderBase>> m_getChaptersCallback;
 
         private ThreadWorker m_infoWorker;
         private List<ThreadWorker> m_workers = new List<ThreadWorker>();
 
         private Dictionary<string, ThreadWorker> m_downloadQueue = new Dictionary<string, ThreadWorker>();
 
-        public DownloadManagerMangaFox(Action<List<ChapterDownloader>> getChaptersCallback)
+        public DownloadManagerMangaFox(Action<List<ChapterDownloaderBase>> getChaptersCallback)
         {
             m_getChaptersCallback = getChaptersCallback;
         }
@@ -49,7 +49,7 @@ namespace MangaDl
             {
                 m_workers.Remove(tw);
 
-                var c = tw.Task.Target as ChapterDownloader;
+                var c = tw.Task.Target as ChapterDownloaderBase;
                 if (c != null)
                 {
                     m_downloadQueue.Remove(c.ChapterName);
@@ -70,7 +70,7 @@ namespace MangaDl
             m_workers.Clear();
         }
 
-        public void ValidateChapters(List<ChapterDownloader> list)
+        public void ValidateChapters(List<ChapterDownloaderBase> list)
         {
             foreach (var c in list)
             {
@@ -89,7 +89,7 @@ namespace MangaDl
         {
             foreach (var tw in m_downloadQueue)
             {
-                var c = tw.Value.Task.Target as ChapterDownloader;
+                var c = tw.Value.Task.Target as ChapterDownloaderBase;
                 if (c == null || c.IsDownloading || c.IsValidating || m_workers.Count >= Config.ThreadLimit)
                 {
                     continue;
@@ -100,7 +100,7 @@ namespace MangaDl
             }
         }
 
-        public void DownloadSelectedChapters(List<ChapterDownloader> list)
+        public void DownloadSelectedChapters(List<ChapterDownloaderBase> list)
         {
             foreach (var c in list)
             {
@@ -116,7 +116,7 @@ namespace MangaDl
             RefreshQueue();
         }
 
-        public void GetChapters(MangaMangaFox m)
+        public void GetChapters(MangaBase m)
         {
             if(m_infoWorker != null && m_infoWorker.IsAlive)
             {

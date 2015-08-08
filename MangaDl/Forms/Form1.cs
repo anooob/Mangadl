@@ -59,8 +59,8 @@ namespace MangaDl
 
             m_mfSearch = new SearchMangaFox(OnSearchCompleted);
             m_msSearch = new SearchMangaSee(OnSearchCompleted);
+            
             m_search = m_msSearch;
-            //m_search = m_mfSearch;
 
             var mfItem = new SiteSelectorItem(MangaSite.MANGAFOX, "MangaFox");
             var msItem = new SiteSelectorItem(MangaSite.MANGASEE, "MangaSee");
@@ -84,7 +84,6 @@ namespace MangaDl
             {
                 foreach (var c in list)
                 {
-                    //m_chapters.Add(c.Id, c);
                     var item = new ChapterListViewItem(new string[] { c.ChapterName, "0", "Ready" });
                     item.Chapter = c;
                     c.Items.Add(item);
@@ -307,14 +306,6 @@ namespace MangaDl
             }
         }
 
-        private void abortAllButton_Click(object sender, EventArgs e)
-        {
-            //if (m_downloader != null)
-            //{
-            //    m_downloader.AbortDownload();
-            //}
-        }
-
         private void siteSelectCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
             var item = siteSelectCombobox.SelectedItem as SiteSelectorItem;
@@ -331,6 +322,10 @@ namespace MangaDl
                         break;
                 }
             }
+        }
+
+        private void abortAllButton_Click(object sender, EventArgs e)
+        {
         }
     }
 }

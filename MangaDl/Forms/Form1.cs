@@ -22,6 +22,7 @@ namespace MangaDl
 
         private DownloadManagerMangaFox m_downloader;
         private SearchMangaFox m_mfSearch;
+        private SearchMangaSee m_msSearch;
 
         private SearchBase m_search;
 
@@ -57,14 +58,16 @@ namespace MangaDl
             m_downloader = new DownloadManagerMangaFox(OnGetChapterInfoCompleted);
 
             m_mfSearch = new SearchMangaFox(OnSearchCompleted);
-            m_search = m_mfSearch;
+            m_msSearch = new SearchMangaSee(OnSearchCompleted);
+            m_search = m_msSearch;
+            //m_search = m_mfSearch;
 
             var mfItem = new SiteSelectorItem(MangaSite.MANGAFOX, "MangaFox");
             var msItem = new SiteSelectorItem(MangaSite.MANGASEE, "MangaSee");
 
             siteSelectCombobox.Items.Add(mfItem);
             siteSelectCombobox.Items.Add(msItem);
-            siteSelectCombobox.SelectedIndex = 0;
+            siteSelectCombobox.SelectedIndex = 1;
         }
 
         private void OnGetChapterInfoCompleted(List<ChapterDownloaderBase> list)
@@ -314,7 +317,20 @@ namespace MangaDl
 
         private void siteSelectCombobox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //TODO: change search and downloader
+            var item = siteSelectCombobox.SelectedItem as SiteSelectorItem;
+
+            if (item != null)
+            {
+                switch (item.Site)
+                { 
+                    case MangaSite.MANGAFOX:
+                        m_search = m_mfSearch;
+                        break;
+                    case MangaSite.MANGASEE:
+                        m_search = m_msSearch;
+                        break;
+                }
+            }
         }
     }
 }

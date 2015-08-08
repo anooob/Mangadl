@@ -9,7 +9,7 @@ using System.Text.RegularExpressions;
 
 namespace MangaDl
 {
-    class ParserMangaFox : Parser
+    class ParserMangaFox : ParserBase
     {
         private static ParserMangaFox m_instance;
 

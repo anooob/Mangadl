@@ -70,14 +70,26 @@ namespace MangaDl
             set { m_pageCount = value; }
         }
 
-        private Parser m_parser;
+        private ParserBase m_parser;
 
-        public Chapter(string url)
+        public Chapter(string url, MangaSite type)
         {
             m_url = url;
             //TODO check for different sites, probably factory
-            m_parser = ParserMangaFox.GetInstance();
-            m_parser.ParseUrl(this);
+
+            switch (type)
+            { 
+                case MangaSite.MANGAFOX:
+                    m_parser = ParserMangaFox.GetInstance();
+                    break;
+                case MangaSite.MANGASEE:
+                    m_parser = ParserMangaSee.GetInstance();
+                    break;
+            }
+            if (m_parser != null)
+            {
+                m_parser.ParseUrl(this);
+            }
         }
 
         public bool GetPageCount()

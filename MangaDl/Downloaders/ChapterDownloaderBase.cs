@@ -1,12 +1,20 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace MangaDl
 {
     abstract class ChapterDownloaderBase
     {
+        protected string m_imgElementName;
+        protected string m_chapterPath;
+        protected HtmlWeb m_web;
+
         protected Chapter m_chapter;
         public Chapter Chapter
         {
@@ -56,8 +64,143 @@ namespace MangaDl
 
         public Action<List<ChapterListViewItem>> RefreshItemCallback;
 
-        public abstract void UpdateStatus(Status status);
-        public abstract void DownloadChapter();
+        public ChapterDownloaderBase(string url, string imgElementName)
+        {
+            m_id = Globals.ChapterId;
+            m_imgElementName = imgElementName;
+            m_web = new HtmlWeb();
+        }
+
+        protected void UpdateProgress(int progress)
+        {
+            m_progress = progress;
+
+            if (RefreshItemCallback != null)
+            {
+                RefreshItemCallback(m_items);
+            }
+        }
+
+        public void UpdateStatus(Status status)
+        {
+            m_status = status;
+
+            if (RefreshItemCallback != null)
+            {
+                RefreshItemCallback(m_items);
+            }
+        }
+
+        protected bool DownloadImage(string url)
+        {
+            string imgName = url.Split('/').Last();
+            string file = Path.Combine(m_chapterPath, imgName);
+
+            if (!File.Exists(file))
+            {
+                try
+                {
+                    HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
+                    HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                    Stream stream = httpWebReponse.GetResponseStream();
+                    var img = Image.FromStream(stream);
+                    if (img.Width == 1 && img.Height == 1)
+                        return false;
+                    img.Save(file);
+                }
+                catch (Exception e)
+                {
+                    Log.WriteLine(e.Message);
+                    Log.WriteLine(e.StackTrace);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void DownloadChapter()
+        {
+            try
+            {
+                UpdateProgress(0);
+                UpdateStatus(Status.DOWNLOADING);
+
+                m_isDownloading = true;
+
+                var dir = CreateDir();
+
+                m_chapterPath = Path.Combine(dir, m_chapter.FullName);
+
+                if (m_chapterPath != null && !Directory.Exists(m_chapterPath))
+                {
+                    Directory.CreateDirectory(m_chapterPath);
+                }
+
+                var webClient = new WebClientGZ();
+                var document = new HtmlDocument();
+                StringBuilder url = new StringBuilder();
+
+                if (m_chapter == null || !m_chapter.GetPageCount())
+                {
+                    UpdateStatus(Status.ERROR);
+                    return;
+                }
+
+                int pageCount = m_chapter.PageCount;
+
+                int downloadedImages = 0;
+
+                for (int i = 1; i <= pageCount; i++)
+                {
+                    CreatePageUrl(url, i);
+                    try
+                    {
+                        var site = webClient.DownloadString(url.ToString());
+                        document.LoadHtml(site);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.WriteLine(e.Message);
+                        Log.WriteLine(e.StackTrace);
+                        return;
+                    }
+                    var imgUrl = GetImageUrl(document);
+                    if (imgUrl == null)
+                    {
+                        return;
+                    }
+
+                    if (!Directory.Exists(m_chapterPath))
+                    {
+                        throw new Exception("File not found.");
+                    }
+
+                    if (DownloadImage(imgUrl))
+                    {
+                        downloadedImages++;
+                    }
+                    float progress = (float)downloadedImages / (float)pageCount * 100f;
+                    UpdateProgress((int)progress);
+                }
+                UpdateStatus(Status.READY);
+            }
+            catch (Exception e)
+            {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
+                UpdateStatus(Status.ERROR);
+                m_isDownloading = false;
+            }
+            finally
+            {
+                m_isDownloading = false;
+            }
+        }
+
+        protected abstract string GetImageUrl(HtmlDocument document);
+        protected abstract string CreateDir();
+        protected abstract void CreatePageUrl(StringBuilder url, int pageNum);
         public abstract void ValidateChapter();
+
     }
 }

@@ -34,32 +34,42 @@ namespace MangaDl
                 Log.WriteLine(e.StackTrace);
                 return;
             }
-            var table = document.GetElementbyId("listing");
-            var resultsClosed = table.SelectNodes("//a[@class='series_preview manga_close']");
-            var resultsOpen = table.SelectNodes("//a[@class='series_preview manga_open']");
 
-            if (resultsClosed != null)
+            try
             {
-                foreach (var r in resultsClosed)
+                var table = document.GetElementbyId("listing");
+                var resultsClosed = table.SelectNodes("//a[@class='series_preview manga_close']");
+                var resultsOpen = table.SelectNodes("//a[@class='series_preview manga_open']");
+
+                if (resultsClosed != null)
                 {
-                    var url = r.Attributes["href"].Value;
-                    if (url != null)
+                    foreach (var r in resultsClosed)
                     {
-                        m_searchResults.Add(new MangaMangaFox(url));
+                        var url = r.Attributes["href"].Value;
+                        if (url != null)
+                        {
+                            m_searchResults.Add(new MangaMangaFox(url));
+                        }
+                    }
+                }
+
+                if (resultsOpen != null)
+                {
+                    foreach (var r in resultsOpen)
+                    {
+                        var url = r.Attributes["href"].Value;
+                        if (url != null)
+                        {
+                            m_searchResults.Add(new MangaMangaFox(url));
+                        }
                     }
                 }
             }
-
-            if (resultsOpen != null)
+            catch (Exception e)
             {
-                foreach (var r in resultsOpen)
-                {
-                    var url = r.Attributes["href"].Value;
-                    if (url != null)
-                    {
-                        m_searchResults.Add(new MangaMangaFox(url));
-                    }
-                }
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
+                return;
             }
         }
     }

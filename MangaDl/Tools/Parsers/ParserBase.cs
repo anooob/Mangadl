@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MangaDl
 {
-    abstract class Parser
+    abstract class ParserBase
     {
         protected static object m_locker = new object();
 

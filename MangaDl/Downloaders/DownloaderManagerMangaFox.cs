@@ -12,8 +12,6 @@ namespace MangaDl
 {    
     class DownloadManagerMangaFox : DownloadManagerBase
     {
-        const string m_imgElementName = "image";
-
         private Action<List<ChapterDownloaderBase>> m_getChaptersCallback;
 
         private ThreadWorker m_infoWorker;
@@ -34,7 +32,7 @@ namespace MangaDl
         {
             if (m_getChaptersCallback != null && sender != null)
             {
-                var manga = ((sender as ThreadWorker).Task.Target as MangaMangaFox);
+                var manga = ((sender as ThreadWorker).Task.Target as MangaBase);
                 if (manga != null)
                 {
                     m_getChaptersCallback(manga.Chapters);

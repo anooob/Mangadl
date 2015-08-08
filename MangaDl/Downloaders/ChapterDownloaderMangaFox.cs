@@ -14,19 +14,13 @@ namespace MangaDl
 {
     class ChapterDownloaderMangaFox : ChapterDownloaderBase
     {
-        private string m_imgElementName;
-        private string m_chapterPath;
-        private HtmlWeb m_web;
-
         public ChapterDownloaderMangaFox(string url, string imgElementName)
+            : base(url, imgElementName)
         {
-            m_id = Globals.ChapterId;
-            m_chapter = new Chapter(url);
-            m_imgElementName = imgElementName;
-            m_web = new HtmlWeb();
+            m_chapter = new Chapter(url, MangaSite.MANGAFOX);
         }
 
-        private string GetImageUrl(HtmlDocument document)
+        protected override string GetImageUrl(HtmlDocument document)
         {
             var imgNode = document.GetElementbyId(m_imgElementName);
 
@@ -37,32 +31,6 @@ namespace MangaDl
             return imgUrl;
         }
 
-        private bool DownloadImage(string url)
-        {
-            string imgName = url.Split('/').Last();
-            string file = Path.Combine(m_chapterPath, imgName);
-
-            if (!File.Exists(file))
-            {
-                try
-                {
-                    HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create(url);
-                    HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    Stream stream = httpWebReponse.GetResponseStream();
-                    var img = Image.FromStream(stream);
-                    if (img.Width == 1 && img.Height == 1)
-                        return false;
-                    img.Save(file);
-                }
-                catch (Exception e)
-                {
-                    Log.WriteLine(e.Message);
-                    Log.WriteLine(e.StackTrace);
-                    return false;
-                }
-            }
-            return true;
-        }
 
         private bool CheckImage(string imgUrl)
         {
@@ -75,24 +43,22 @@ namespace MangaDl
             return false;
         }
 
-        private void UpdateProgress(int progress)
+        protected override string CreateDir()
         {
-            m_progress = progress;
+            var dir = Path.Combine(Config.SavePath, "Mangafox", m_chapter.MangaName);
 
-            if (RefreshItemCallback != null)
+            if (!Directory.Exists(dir))
             {
-                RefreshItemCallback(m_items);
+                Directory.CreateDirectory(dir);
             }
+
+            return dir;
         }
 
-        public override void UpdateStatus(Status status)
+        protected override void CreatePageUrl(StringBuilder url, int pageNum)
         {
-            m_status = status;
-
-            if (RefreshItemCallback != null)
-            {
-                RefreshItemCallback(m_items);
-            }
+            url.Clear();
+            url.Append(m_chapter.UrlPrefix).Append(pageNum).Append(".html");
         }
 
         public override void ValidateChapter()
@@ -189,89 +155,6 @@ namespace MangaDl
             finally
             {
                 m_isValidating = false;
-            }
-        }
-
-        public override void DownloadChapter()
-        {
-            try
-            {
-                UpdateProgress(0);
-                UpdateStatus(Status.DOWNLOADING);
-
-                m_isDownloading = true;
-                var dir = Path.Combine(Config.SavePath, m_chapter.MangaName);
-                if (!Directory.Exists(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-
-                m_chapterPath = Path.Combine(dir, m_chapter.FullName);
-
-                if (m_chapterPath != null && !Directory.Exists(m_chapterPath))
-                {
-                    Directory.CreateDirectory(m_chapterPath);
-                }
-                var webClient = new WebClientGZ();
-                var document = new HtmlDocument();
-                StringBuilder url = new StringBuilder();
-
-                if (m_chapter == null || !m_chapter.GetPageCount())
-                {
-                    UpdateStatus(Status.ERROR);
-                    return;
-                }
-
-                int pageCount = m_chapter.PageCount;
-
-                int downloadedImages = 0;
-                for (int i = 1; i <= pageCount; i++)
-                {
-                    url.Clear();
-                    url.Append(m_chapter.UrlPrefix).Append(i).Append(".html");
-
-                    try
-                    {
-                        var site = webClient.DownloadString(url.ToString());
-                        document.LoadHtml(site);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.WriteLine(e.Message);
-                        Log.WriteLine(e.StackTrace);
-                        return;
-                    }
-                    var imgUrl = GetImageUrl(document);
-                    if (imgUrl == null)
-                    {
-                        return;
-                    }
-
-                    if (!Directory.Exists(m_chapterPath))
-                    {
-                        throw new Exception("File not found.");
-                    }
-
-                    if (DownloadImage(imgUrl))
-                    {
-                        downloadedImages++;
-                    }
-
-                    float progress = (float)downloadedImages / (float)pageCount * 100f;
-                    UpdateProgress((int)progress);
-                }
-                UpdateStatus(Status.READY);
-            }
-            catch (Exception e)
-            {
-                Log.WriteLine(e.Message);
-                Log.WriteLine(e.StackTrace);
-                UpdateStatus(Status.ERROR);
-                m_isDownloading = false;
-            }
-            finally
-            {
-                m_isDownloading = false;
             }
         }
     }

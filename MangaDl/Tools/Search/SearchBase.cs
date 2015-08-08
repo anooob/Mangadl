@@ -22,7 +22,7 @@ namespace MangaDl
         public void GetSearchResults(string query)
         {
             var q = query.Replace(' ', '+').ToLower();
-            m_searchUrl = m_searchPrefix + q;
+            m_searchUrl = m_searchPrefix + q + m_searchPostfix;
             m_searchResults.Clear();
 
             var tw = new ThreadWorker(ParseResultDocument);

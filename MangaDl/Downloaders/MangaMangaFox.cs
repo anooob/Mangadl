@@ -10,29 +10,9 @@ namespace MangaDl
 {
     class MangaMangaFox : MangaBase
     {
-
-        private HtmlWeb m_web;
-
-        private List<ChapterDownloaderBase> m_chapters = new List<ChapterDownloaderBase>();
-        public List<ChapterDownloaderBase> Chapters
-        {
-            get { return m_chapters; }
-        }
-
-        private string m_url;
-        public string Url
-        {
-            get { return m_url; }
-            set { m_url = value; }
-        }
-
-        public MangaMangaFox()
-        { }
-
         public MangaMangaFox(string url)
+            : base(url)
         {
-            m_web = new HtmlWeb();
-            m_url = url;
             ParseUrl();
         }
 
@@ -45,18 +25,23 @@ namespace MangaDl
 
         public override void GetChapters()
         {
-            HtmlDocument document = null;
+            HtmlDocument document = new HtmlDocument(); ;
             try
             {
-                document = m_web.Load(m_url.ToString());
+                using (var webClient = new WebClientGZ())
+                {
+                    var site = webClient.DownloadString(m_url);
+                    document.LoadHtml(site);
+                }
             }
             catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 return;
             }
             try
             {
-
                 var chapterList = document.GetElementbyId("chapters");
                 var chapters = chapterList.SelectNodes("//a[@class='tips']");
 
@@ -67,6 +52,8 @@ namespace MangaDl
             }
             catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 return;
             }
         }

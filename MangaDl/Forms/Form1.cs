@@ -13,12 +13,10 @@ namespace MangaDl
         private delegate void RefreshItemDelegate(List<ChapterListViewItem> items);
 
         private DownloadManager m_downloader;
+
         private SearchMangaFox m_mfSearch;
         private SearchMangaSee m_msSearch;
-
         private SearchBase m_search;
-
-        private Dictionary<string, ChapterDownloaderMangaFox> m_chapters = new Dictionary<string, ChapterDownloaderMangaFox>();
 
         public Form1()
         {
@@ -74,6 +72,7 @@ namespace MangaDl
             }
             else
             {
+                chaptersListview.Items.Clear();
                 foreach (var c in list)
                 {
                     var item = new ChapterListViewItem(new string[] { c.ChapterName, "0", "Ready" });
@@ -118,6 +117,7 @@ namespace MangaDl
             }
             else
             {
+                searchListview.Items.Clear();
                 foreach (var m in list)
                 {
                     var item = new MangaListViewItem(new string[] { m.Name });

@@ -41,6 +41,8 @@ namespace MangaDl
                 var chapterList = document.GetElementbyId("chapters");
                 var chapters = chapterList.SelectNodes("//a[@class='tips']");
 
+                m_chapters.Clear();
+
                 foreach (var c in chapters)
                 {
                     m_chapters.Add(new ChapterDownloaderMangaFox(c.Attributes["href"].Value, "image"));

@@ -41,6 +41,8 @@ namespace MangaDl
             {
                 var chapters = document.DocumentNode.SelectNodes("//a[@class=\"chapter_link\"]");
 
+                m_chapters.Clear();
+
                 foreach (var c in chapters)
                 {
                     if (c.OuterHtml != null && c.OuterHtml.Contains("dark_link"))

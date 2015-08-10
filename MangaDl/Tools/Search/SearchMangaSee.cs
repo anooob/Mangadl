@@ -34,6 +34,8 @@ namespace MangaDl
 
             var results = document.DocumentNode.SelectNodes("//h1");
 
+            m_searchResults.Clear();
+
             if (results != null)
             {
                 for (int i = 1; i < results.Count - 2; i++)

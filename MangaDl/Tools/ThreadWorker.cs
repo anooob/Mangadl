@@ -12,6 +12,7 @@ namespace MangaDl
         public Action Task
         {
             get { return m_task; }
+            set { m_task = value; }
         }
 
         private Thread m_thread;
@@ -31,6 +32,10 @@ namespace MangaDl
         public ThreadWorker(Action task)
         {
             m_task = task;
+        }
+
+        public ThreadWorker()
+        {
         }
 
         public void Run()

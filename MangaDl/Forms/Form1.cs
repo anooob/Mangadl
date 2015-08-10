@@ -72,7 +72,7 @@ namespace MangaDl
             }
             else
             {
-                chaptersListview.Items.Clear();
+                ClearChapterListView(chaptersListview);
                 foreach (var c in list)
                 {
                     var item = new ChapterListViewItem(new string[] { c.ChapterName, "0", "Ready" });
@@ -146,8 +146,11 @@ namespace MangaDl
                 var item = (searchListview.SelectedItems[0] as MangaListViewItem);
                 if (item != null)
                 {
-                    ClearChapterListView(chaptersListview);
-                    m_downloader.GetChapters(item.Manga);
+                    if (!item.Manga.IsGettingChapters)
+                    {
+                        ClearChapterListView(chaptersListview);
+                        m_downloader.GetChapters(item.Manga);
+                    }
                 }
             }
         }

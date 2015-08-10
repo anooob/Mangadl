@@ -22,6 +22,7 @@ namespace MangaDl
 
         public override void GetChapters()
         {
+            m_isGettingChapters = true;
             HtmlDocument document = new HtmlDocument(); ;
             try
             {
@@ -35,7 +36,7 @@ namespace MangaDl
             {
                 Log.WriteLine(e.Message);
                 Log.WriteLine(e.StackTrace);
-                return;
+                m_isGettingChapters = false;
             }
             try
             {
@@ -57,7 +58,10 @@ namespace MangaDl
             {
                 Log.WriteLine(e.Message);
                 Log.WriteLine(e.StackTrace);
-                return;
+            }
+            finally
+            {
+                m_isGettingChapters = false;
             }
         }
     }

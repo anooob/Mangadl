@@ -113,8 +113,7 @@ namespace MangaDl
             {
                 m_infoWorker.Abort();
             }
-
-            ThreadWorker tw = new ThreadWorker(m.GetChapters);
+            var tw = new ThreadWorker(m.GetChapters);
             tw.ThreadDone += CallGetChaptersCallback;
             m_infoWorker = tw;
             tw.Start();

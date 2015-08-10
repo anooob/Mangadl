@@ -26,6 +26,12 @@ namespace MangaDl
             get { return m_name; }
         }
 
+        protected bool m_isGettingChapters;
+        public bool IsGettingChapters
+        {
+            get { return m_isGettingChapters; }
+        }
+
         public MangaBase(string url)
         {
             m_url = url;

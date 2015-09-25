@@ -7,6 +7,13 @@ namespace MangaDl
     {
         protected HtmlWeb m_web;
 
+        protected MangaSite m_site;
+        public MangaSite Site
+        {
+            get { return m_site; }
+            set { m_site = value; }
+        }
+
         protected List<ChapterDownloaderBase> m_chapters = new List<ChapterDownloaderBase>();
         public List<ChapterDownloaderBase> Chapters
         {

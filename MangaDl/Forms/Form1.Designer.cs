@@ -43,6 +43,7 @@
             this.validateButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.favoritesAddButton = new System.Windows.Forms.Button();
             this.siteSelectCombobox = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.threadLimitButton = new System.Windows.Forms.Button();
@@ -189,6 +190,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.favoritesAddButton);
             this.tabPage1.Controls.Add(this.siteSelectCombobox);
             this.tabPage1.Controls.Add(this.urlLabel);
             this.tabPage1.Controls.Add(this.validateButton);
@@ -211,6 +213,16 @@
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // favoritesAddButton
+            // 
+            this.favoritesAddButton.Location = new System.Drawing.Point(314, 103);
+            this.favoritesAddButton.Name = "favoritesAddButton";
+            this.favoritesAddButton.Size = new System.Drawing.Size(96, 23);
+            this.favoritesAddButton.TabIndex = 17;
+            this.favoritesAddButton.Text = "Add to Favorites";
+            this.favoritesAddButton.UseVisualStyleBackColor = true;
+            this.favoritesAddButton.Click += new System.EventHandler(this.favoritesAddButton_Click);
+            // 
             // siteSelectCombobox
             // 
             this.siteSelectCombobox.FormattingEnabled = true;
@@ -230,7 +242,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1208, 541);
+            this.tabPage2.Size = new System.Drawing.Size(975, 541);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Download Queue";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -321,6 +333,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox threadLimitTextBox;
         private System.Windows.Forms.ComboBox siteSelectCombobox;
+        private System.Windows.Forms.Button favoritesAddButton;
     }
 }
 

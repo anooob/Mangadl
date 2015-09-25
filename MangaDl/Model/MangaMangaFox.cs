@@ -10,6 +10,7 @@ namespace MangaDl
             : base(url)
         {
             ParseUrl();
+            m_site = MangaSite.MANGAFOX;
         }
 
         protected override void ParseUrl()

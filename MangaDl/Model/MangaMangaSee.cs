@@ -12,7 +12,9 @@ namespace MangaDl
             : base(url)
         {
             ParseUrl();
+            Site = MangaSite.MANGASEE;
         }
+
         protected override void ParseUrl()
         {
             var tokens = m_url.Split('/').ToList();

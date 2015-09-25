@@ -7,10 +7,10 @@ namespace MangaDl
 {
     static class Config
     {
-        public static string ConfigFile = "config.txt";
-        public static char Separator = '=';
+        public const string ConfigFile = "config.txt";
+        public const char Separator = '=';
 
-        public static string SavePathStr = "path";
+        private const string SavePathStr = "path";
         private static string DefaultPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         private static string m_savePath = DefaultPath;

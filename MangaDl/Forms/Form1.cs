@@ -17,6 +17,7 @@ namespace MangaDl
         private SearchMangaFox m_mfSearch;
         private SearchMangaSee m_msSearch;
         private SearchBase m_search;
+        private Favorites m_favorites;
 
         public Form1()
         {
@@ -46,6 +47,7 @@ namespace MangaDl
             threadLimitTextBox.Text = Config.ThreadLimit.ToString();
 
             m_downloader = new DownloadManager(OnGetChapterInfoCompleted);
+            m_favorites = new Favorites();
 
             m_mfSearch = new SearchMangaFox(OnSearchCompleted);
             m_msSearch = new SearchMangaSee(OnSearchCompleted);
@@ -319,8 +321,14 @@ namespace MangaDl
             }
         }
 
-        private void abortAllButton_Click(object sender, EventArgs e)
+        private void favoritesAddButton_Click(object sender, EventArgs e)
         {
+            var selectedItem = searchListview.SelectedItems[0] as MangaListViewItem;
+
+            if (selectedItem != null)
+            {
+                m_favorites.AddFavorite(selectedItem.Manga.Name, selectedItem.Manga.Url);
+            }
         }
     }
 }

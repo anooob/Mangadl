@@ -184,7 +184,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1216, 567);
+            this.tabControl1.Size = new System.Drawing.Size(983, 567);
             this.tabControl1.TabIndex = 15;
             // 
             // tabPage1
@@ -206,7 +206,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1208, 541);
+            this.tabPage1.Size = new System.Drawing.Size(975, 541);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -283,7 +283,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1240, 591);
+            this.ClientSize = new System.Drawing.Size(1007, 591);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Manga Downloader";

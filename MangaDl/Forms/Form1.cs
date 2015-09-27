@@ -122,7 +122,7 @@ namespace MangaDl
                 searchListview.Items.Clear();
                 foreach (var m in list)
                 {
-                    var item = new MangaListViewItem(new string[] { m.Name });
+                    var item = new MangaListViewItem(new string[] { m.ListName });
                     item.Manga = m;
                     searchListview.Items.Add(item);
                 }
@@ -255,7 +255,31 @@ namespace MangaDl
 
         private void openFolderButton_Click(object sender, EventArgs e)
         {
-            var dir = Config.SavePath;
+            string dir = null;
+
+            if (chaptersListview.SelectedItems.Count > 0)
+            {
+                var item = chaptersListview.SelectedItems[0] as ChapterListViewItem;
+                if (item != null)
+                {
+                    dir = item.Chapter.MangaPath;
+                }
+            }
+
+            else if (searchListview.SelectedItems.Count > 0)
+            {
+                var item = searchListview.SelectedItems[0] as MangaListViewItem;
+                if (item != null)
+                {
+                    dir = item.Manga.MPath;
+                }
+            }
+
+            else
+            {
+                dir = Config.SavePath;
+            }
+
             if (Directory.Exists(dir))
             {
                 Process.Start(dir);
@@ -359,11 +383,37 @@ namespace MangaDl
 
                 if (manga != null)
                 {
-                    var listviewItem = new MangaListViewItem(new string[] { manga.Name });
+                    var listviewItem = new MangaListViewItem(new string[] { manga.ListName });
                     listviewItem.Manga = manga;
                     searchListview.Items.Add(listviewItem);
                 }
             }
+        }
+
+        private void UnsubscribeSelectionChanged()
+        {
+            searchListview.ItemSelectionChanged -= searchListview_ItemSelectionChanged;
+            chaptersListview.ItemSelectionChanged -= chaptersListview_ItemSelectionChanged;
+        }
+
+        private void SubscribeSelectionChanged()
+        {
+            searchListview.ItemSelectionChanged += searchListview_ItemSelectionChanged;
+            chaptersListview.ItemSelectionChanged += chaptersListview_ItemSelectionChanged;
+        }
+
+        private void searchListview_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            UnsubscribeSelectionChanged();
+            chaptersListview.SelectedItems.Clear();
+            SubscribeSelectionChanged();
+        }
+
+        private void chaptersListview_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            UnsubscribeSelectionChanged();
+            searchListview.SelectedItems.Clear();
+            SubscribeSelectionChanged();
         }
     }
 }

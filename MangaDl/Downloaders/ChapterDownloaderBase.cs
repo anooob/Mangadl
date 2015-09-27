@@ -15,6 +15,13 @@ namespace MangaDl
         protected string m_chapterPath;
         protected HtmlWeb m_web;
 
+        protected string m_mangaPath;
+        public string MangaPath
+        {
+            get { return m_mangaPath; }
+        }
+
+
         protected Chapter m_chapter;
         public Chapter Chapter
         {
@@ -110,9 +117,7 @@ namespace MangaDl
                 UpdateStatus(Status.VALIDATING);
                 m_isValidating = true;
 
-                var dir = CreateDir();
-
-                var chapterPath = Path.Combine(dir, m_chapter.FullName);
+                var chapterPath = Path.Combine(m_mangaPath, m_chapter.FullName);
 
                 if (chapterPath != null && !Directory.Exists(chapterPath))
                 {
@@ -229,9 +234,9 @@ namespace MangaDl
 
                 m_isDownloading = true;
 
-                var dir = CreateDir();
+                CreateDir();
 
-                m_chapterPath = Path.Combine(dir, m_chapter.FullName);
+                m_chapterPath = Path.Combine(m_mangaPath, m_chapter.FullName);
 
                 if (m_chapterPath != null && !Directory.Exists(m_chapterPath))
                 {
@@ -299,8 +304,15 @@ namespace MangaDl
             }
         }
 
+        protected void CreateDir()
+        {
+            if (!Directory.Exists(m_mangaPath))
+            {
+                Directory.CreateDirectory(m_mangaPath);
+            }
+        }
+
         protected abstract string GetImageUrl(HtmlDocument document);
-        protected abstract string CreateDir();
         protected abstract void CreatePageUrl(StringBuilder url, int pageNum);
         //public abstract void ValidateChapter();
 

@@ -20,6 +20,12 @@ namespace MangaDl
             get { return m_chapters; }
         }
 
+        protected string m_path;
+        public string MPath
+        {
+            get { return m_path; }
+        }
+
         protected string m_url;
         public string Url
         {
@@ -28,9 +34,14 @@ namespace MangaDl
         }
 
         protected string m_name;
-        public abstract string Name
+        public abstract string ListName
         {
             get;
+        }
+
+        public string Name
+        {
+            get { return m_name; }
         }
 
         protected bool m_isGettingChapters;

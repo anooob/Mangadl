@@ -120,6 +120,7 @@
             this.chaptersListview.Size = new System.Drawing.Size(450, 445);
             this.chaptersListview.TabIndex = 7;
             this.chaptersListview.UseCompatibleStateImageBehavior = false;
+            this.chaptersListview.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.chaptersListview_ItemSelectionChanged);
             // 
             // downloadButton
             // 
@@ -148,6 +149,7 @@
             this.searchListview.Size = new System.Drawing.Size(299, 445);
             this.searchListview.TabIndex = 11;
             this.searchListview.UseCompatibleStateImageBehavior = false;
+            this.searchListview.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.searchListview_ItemSelectionChanged);
             this.searchListview.DoubleClick += new System.EventHandler(this.searchListview_DoubleClick);
             // 
             // searchButton

@@ -6,10 +6,11 @@ namespace MangaDl
 {
     class ChapterDownloaderMangaSee : ChapterDownloaderBase
     {
-        public ChapterDownloaderMangaSee(string url, string imgElementName)
+        public ChapterDownloaderMangaSee(string url, string imgElementName, string mangaName, string mangaPath)
             : base(url, imgElementName)
         {
-            m_chapter = new Chapter(url, MangaSite.MANGASEE);
+            m_chapter = new Chapter(url, MangaSite.MANGASEE, mangaName);
+            m_mangaPath = mangaPath;
         }
 
         protected override string GetImageUrl(HtmlDocument document)
@@ -21,18 +22,6 @@ namespace MangaDl
 
             var imgUrl = imgNode.Attributes["src"].Value;
             return imgUrl;
-        }
-
-        protected override string CreateDir() 
-        {
-            var dir = Path.Combine(Config.SavePath, "Mangasee", m_chapter.MangaName);
-
-            if (!Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
-
-            return dir;
         }
 
         protected override void CreatePageUrl(StringBuilder url, int pageNum)

@@ -67,7 +67,7 @@ namespace MangaDl
             var tokens = urlParams.Split('&');
 
             var seriesName = GetSeriesName(tokens);
-            if (seriesName != null)
+            if (seriesName != null && string.IsNullOrEmpty(chapter.MangaName))
             {
                 chapter.MangaName = seriesName;
             }

@@ -62,7 +62,11 @@ namespace MangaDl
                 return;
 
             var tokens = chapter.Url.Split('/');
-            chapter.MangaName = tokens[4];
+            
+            if (string.IsNullOrEmpty(chapter.MangaName))
+            {
+                chapter.MangaName = tokens[4];
+            }
 
             var chapterToken = GetChapterToken(tokens);
             if (chapterToken != null)

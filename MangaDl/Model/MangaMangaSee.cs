@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace MangaDl
@@ -8,7 +9,7 @@ namespace MangaDl
     {
         private const string m_baseUrl = "http://mangasee.co";
 
-        public override string Name
+        public override string ListName
         {
             get { return m_name + " - MangaSee"; }
         }
@@ -18,6 +19,7 @@ namespace MangaDl
         {
             ParseUrl();
             Site = MangaSite.MANGASEE;
+            m_path = Path.Combine(Config.SavePath, "Mangasee", m_name);
         }
 
         protected override void ParseUrl()
@@ -58,7 +60,7 @@ namespace MangaDl
                         continue;
                     }
                     var url = c.Attributes["href"].Value.TrimStart('.');
-                    m_chapters.Add(new ChapterDownloaderMangaSee(m_baseUrl + url, ""));
+                    m_chapters.Add(new ChapterDownloaderMangaSee(m_baseUrl + url, "", m_name, m_path));
                 }
             }
             catch (Exception e)

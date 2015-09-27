@@ -65,11 +65,11 @@ namespace MangaDl
 
         private ParserBase m_parser;
 
-        public Chapter(string url, MangaSite type)
+        public Chapter(string url, MangaSite type, string mangaName)
         {
             m_url = url;
             //TODO check for different sites, probably factory
-
+            m_mangaName = mangaName;
             switch (type)
             { 
                 case MangaSite.MANGAFOX:

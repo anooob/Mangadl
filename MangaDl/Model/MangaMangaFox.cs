@@ -1,12 +1,13 @@
 ﻿using HtmlAgilityPack;
 using System;
+using System.IO;
 using System.Linq;
 
 namespace MangaDl
 {
     class MangaMangaFox : MangaBase
     {
-        public override string Name
+        public override string ListName
         {
             get { return m_name + " - MangaFox"; }
         }
@@ -16,6 +17,7 @@ namespace MangaDl
         {
             ParseUrl();
             m_site = MangaSite.MANGAFOX;
+            m_path = Path.Combine(Config.SavePath, "Mangafox", m_name);
         }
 
         protected override void ParseUrl()
@@ -53,7 +55,7 @@ namespace MangaDl
 
                 foreach (var c in chapters)
                 {
-                    m_chapters.Add(new ChapterDownloaderMangaFox(c.Attributes["href"].Value, "image"));
+                    m_chapters.Add(new ChapterDownloaderMangaFox(c.Attributes["href"].Value, "image", m_name, m_path));
                 }
             }
             catch (Exception e)

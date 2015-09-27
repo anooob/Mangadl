@@ -27,18 +27,18 @@ namespace MangaDl
 
         public void Add(MangaBase manga)
         {
-            if (manga != null && !FavoritesList.Contains(new KeyValuePair<string,string>(manga.Name, manga.Url)))
+            if (manga != null && !FavoritesList.Contains(new KeyValuePair<string,string>(manga.ListName, manga.Url)))
             {
-                FavoritesList.Add(manga.Name, manga.Url);
+                FavoritesList.Add(manga.ListName, manga.Url);
                 SaveFavorites();
             }
         }
 
         public void Remove(MangaBase manga)
         {
-            if (manga != null && FavoritesList.Contains(new KeyValuePair<string, string>(manga.Name, manga.Url)))
+            if (manga != null && FavoritesList.Contains(new KeyValuePair<string, string>(manga.ListName, manga.Url)))
             {
-                FavoritesList.Remove(manga.Name);
+                FavoritesList.Remove(manga.ListName);
                 SaveFavorites();
             }
         }

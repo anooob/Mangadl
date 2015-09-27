@@ -75,8 +75,8 @@ namespace MangaDl
                 case MangaSite.MANGAFOX:
                     m_parser = ParserMangaFox.GetInstance();
                     break;
-                case MangaSite.MANGASEE:
-                    m_parser = ParserMangaSee.GetInstance();
+                case MangaSite.MANGALIFE:
+                    m_parser = ParserMangaLife.GetInstance();
                     break;
             }
             if (m_parser != null)

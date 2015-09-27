@@ -4,12 +4,12 @@ using System.Text;
 
 namespace MangaDl
 {
-    class ChapterDownloaderMangaSee : ChapterDownloaderBase
+    class ChapterDownloaderMangaLife : ChapterDownloaderBase
     {
-        public ChapterDownloaderMangaSee(string url, string imgElementName, string mangaName, string mangaPath)
+        public ChapterDownloaderMangaLife(string url, string imgElementName, string mangaName, string mangaPath)
             : base(url, imgElementName)
         {
-            m_chapter = new Chapter(url, MangaSite.MANGASEE, mangaName);
+            m_chapter = new Chapter(url, MangaSite.MANGALIFE, mangaName);
             m_mangaPath = mangaPath;
         }
 

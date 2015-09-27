@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace MangaDl
 {
-    class ParserMangaSee : ParserBase
+    class ParserMangaLife : ParserBase
     {
-        private static ParserMangaSee m_instance;
+        private static ParserMangaLife m_instance;
 
-        public static ParserMangaSee GetInstance()
+        public static ParserMangaLife GetInstance()
         {
             if (m_instance == null)
             {
@@ -17,14 +17,14 @@ namespace MangaDl
                 {
                     if (m_instance == null)
                     {
-                        m_instance = new ParserMangaSee();
+                        m_instance = new ParserMangaLife();
                     }
                 }
             }
             return m_instance;
         }
 
-        private ParserMangaSee()
+        private ParserMangaLife()
         { 
         }
 
@@ -34,7 +34,7 @@ namespace MangaDl
             {
                 if (s.StartsWith("chapter"))
                 {
-                    return s.Split('=').Last();
+                    return s.Split('-').Last();
                 }
             }
             return null;
@@ -47,24 +47,33 @@ namespace MangaDl
 
         private string GetSeriesName(string[] tokens)
         {
-            foreach (var s in tokens)
-            { 
-                if (s.StartsWith("series"))
+            int index = -1;
+
+            for (int i = 0; i < tokens.Count(); i++)
+            {
+                if (tokens[i].Contains("read-online"))
                 {
-                    return s.Split('=').Last();
+                    index = i + 1;
+                    break;
                 }
             }
+
+            if (index != -1)
+            {
+                return tokens[index];
+            }
+
             return null;
         }
 
         public override void ParseUrl(Chapter chapter)
         {
+            //http://manga.life/read-online/Berserk/chapter-1/index-2/page-1
             //TODO validate URL
             if (chapter.Url == null || chapter.Url == string.Empty)
                 return;
 
-            var urlParams = chapter.Url.Split('?').Last();
-            var tokens = urlParams.Split('&');
+            var tokens = chapter.Url.Split('/');
 
             var seriesName = GetSeriesName(tokens);
             if (seriesName != null && string.IsNullOrEmpty(chapter.MangaName))
@@ -103,7 +112,7 @@ namespace MangaDl
                 return false;
             }
 
-            var node = document.DocumentNode.SelectNodes("//select[@class='form-control selectWidth' and @name='page']")[0];
+            var node = document.DocumentNode.SelectNodes("//select[@class='changePageSelect']")[0];
             var pages = node.SelectNodes("*");
             
             chapter.PageCount = pages.Count;

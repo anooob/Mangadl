@@ -15,7 +15,7 @@ namespace MangaDl
         private DownloadManager m_downloader;
 
         private SearchMangaFox m_mfSearch;
-        private SearchMangaSee m_msSearch;
+        private SearchMangaLife m_msSearch;
         private SearchBase m_search;
         private Favorites m_favorites;
 
@@ -50,12 +50,12 @@ namespace MangaDl
             m_favorites = new Favorites();
 
             m_mfSearch = new SearchMangaFox(OnSearchCompleted);
-            m_msSearch = new SearchMangaSee(OnSearchCompleted);
+            m_msSearch = new SearchMangaLife(OnSearchCompleted);
             
             m_search = m_msSearch;
 
             var mfItem = new SiteSelectorItem(MangaSite.MANGAFOX, "MangaFox");
-            var msItem = new SiteSelectorItem(MangaSite.MANGASEE, "MangaSee");
+            var msItem = new SiteSelectorItem(MangaSite.MANGALIFE, "MangaSee");
 
             siteSelectCombobox.Items.Add(mfItem);
             siteSelectCombobox.Items.Add(msItem);
@@ -338,7 +338,7 @@ namespace MangaDl
                     case MangaSite.MANGAFOX:
                         m_search = m_mfSearch;
                         break;
-                    case MangaSite.MANGASEE:
+                    case MangaSite.MANGALIFE:
                         m_search = m_msSearch;
                         break;
                 }
@@ -376,9 +376,9 @@ namespace MangaDl
                 {
                     manga = new MangaMangaFox(item.Value);
                 }
-                if (item.Value.ToLower().Contains(MangaSite.MANGASEE.ToString().ToLower()))
+                if (item.Value.ToLower().Replace(".", "").Contains(MangaSite.MANGALIFE.ToString().ToLower()))
                 {
-                    manga = new MangaMangaSee(item.Value);
+                    manga = new MangaMangaLife(item.Value);
                 }
 
                 if (manga != null)

@@ -150,6 +150,7 @@ namespace MangaDl
                     {
                         Log.WriteLine(e.Message);
                         Log.WriteLine(e.StackTrace);
+                        UpdateStatus(Status.ERROR);
                         return;
                     }
                     var imgUrl = GetImageUrl(document);
@@ -269,6 +270,7 @@ namespace MangaDl
                     {
                         Log.WriteLine(e.Message);
                         Log.WriteLine(e.StackTrace);
+                        UpdateStatus(Status.ERROR);
                         return;
                     }
                     var imgUrl = GetImageUrl(document);

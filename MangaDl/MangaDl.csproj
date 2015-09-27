@@ -52,9 +52,9 @@
   <ItemGroup>
     <Compile Include="Downloaders\ChapterDownloaderBase.cs" />
     <Compile Include="Downloaders\ChapterDownloaderMangaFox.cs" />
-    <Compile Include="Downloaders\ChapterDownloaderMangaSee.cs" />
+    <Compile Include="Downloaders\ChapterDownloaderMangaLife.cs" />
     <Compile Include="Model\MangaBase.cs" />
-    <Compile Include="Model\MangaMangaSee.cs" />
+    <Compile Include="Model\MangaMangaLife.cs" />
     <Compile Include="Model\Chapter.cs" />
     <Compile Include="Tools\Config.cs" />
     <Compile Include="Downloaders\DownloaderManager.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="Tools\Extensions\MangaListViewItem.cs" />
     <Compile Include="Tools\Extensions\SiteSelectorItem.cs" />
     <Compile Include="Tools\Favorites.cs" />
-    <Compile Include="Tools\Parsers\ParserMangaSee.cs" />
+    <Compile Include="Tools\Parsers\ParserMangaLife.cs" />
     <Compile Include="Tools\Search\SearchMangaFox.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
@@ -79,7 +79,7 @@
     <Compile Include="Tools\Parsers\ParserBase.cs" />
     <Compile Include="Tools\Parsers\ParserMangaFox.cs" />
     <Compile Include="Tools\Search\SearchBase.cs" />
-    <Compile Include="Tools\Search\SearchMangaSee.cs" />
+    <Compile Include="Tools\Search\SearchMangaLife.cs" />
     <Compile Include="Tools\ThreadWorker.cs" />
     <Compile Include="Tools\Extensions\WebClientGZ.cs">
       <SubType>Component</SubType>

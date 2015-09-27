@@ -15,6 +15,6 @@ namespace MangaDl
     enum MangaSite
     {
         MANGAFOX,
-        MANGASEE
+        MANGALIFE
     }
 }

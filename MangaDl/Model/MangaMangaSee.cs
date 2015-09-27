@@ -8,6 +8,11 @@ namespace MangaDl
     {
         private const string m_baseUrl = "http://mangasee.co";
 
+        public override string Name
+        {
+            get { return m_name + " - MangaSee"; }
+        }
+
         public MangaMangaSee(string url)
             : base(url)
         {

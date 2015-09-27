@@ -6,6 +6,11 @@ namespace MangaDl
 {
     class MangaMangaFox : MangaBase
     {
+        public override string Name
+        {
+            get { return m_name + " - MangaFox"; }
+        }
+
         public MangaMangaFox(string url)
             : base(url)
         {

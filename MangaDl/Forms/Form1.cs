@@ -327,7 +327,42 @@ namespace MangaDl
 
             if (selectedItem != null)
             {
-                m_favorites.AddFavorite(selectedItem.Manga.Name, selectedItem.Manga.Url);
+                m_favorites.Add(selectedItem.Manga);
+            }
+        }
+
+        private void favoritesRemoveButton_Click(object sender, EventArgs e)
+        {
+            var selectedItem = searchListview.SelectedItems[0] as MangaListViewItem;
+
+            if (selectedItem != null)
+            {
+                m_favorites.Remove(selectedItem.Manga);
+            }
+        }
+
+        private void favoritesShowButton_Click(object sender, EventArgs e)
+        {
+            searchListview.Items.Clear();
+
+            foreach (var item in m_favorites.GetFavorites())
+            {
+                MangaBase manga = null;
+                if (item.Value.ToLower().Contains(MangaSite.MANGAFOX.ToString().ToLower()))
+                {
+                    manga = new MangaMangaFox(item.Value);
+                }
+                if (item.Value.ToLower().Contains(MangaSite.MANGASEE.ToString().ToLower()))
+                {
+                    manga = new MangaMangaSee(item.Value);
+                }
+
+                if (manga != null)
+                {
+                    var listviewItem = new MangaListViewItem(new string[] { manga.Name });
+                    listviewItem.Manga = manga;
+                    searchListview.Items.Add(listviewItem);
+                }
             }
         }
     }

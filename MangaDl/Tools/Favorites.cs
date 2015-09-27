@@ -17,11 +17,28 @@ namespace MangaDl
             LoadFavorites();
         }
 
-        public void AddFavorite(string name, string url)
+        public IEnumerable<KeyValuePair<string, string>> GetFavorites()
         {
-            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(url))
+            foreach (var item in FavoritesList)
             {
-                FavoritesList.Add(name, url);
+                yield return item;
+            }
+        }
+
+        public void Add(MangaBase manga)
+        {
+            if (manga != null && !FavoritesList.Contains(new KeyValuePair<string,string>(manga.Name, manga.Url)))
+            {
+                FavoritesList.Add(manga.Name, manga.Url);
+                SaveFavorites();
+            }
+        }
+
+        public void Remove(MangaBase manga)
+        {
+            if (manga != null && FavoritesList.Contains(new KeyValuePair<string, string>(manga.Name, manga.Url)))
+            {
+                FavoritesList.Remove(manga.Name);
                 SaveFavorites();
             }
         }
@@ -62,7 +79,7 @@ namespace MangaDl
                     {
                         string line = reader.ReadLine();
                         var tokens = line.Split(separator);
-                        if (tokens.Count() < 2)
+                        if (tokens.Count() < 2 || FavoritesList.Contains(new KeyValuePair<string,string>(tokens[0], tokens[1])))
                         {
                             continue;
                         }

@@ -28,9 +28,9 @@ namespace MangaDl
         }
 
         protected string m_name;
-        public string Name
+        public abstract string Name
         {
-            get { return m_name; }
+            get;
         }
 
         protected bool m_isGettingChapters;

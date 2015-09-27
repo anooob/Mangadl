@@ -43,6 +43,8 @@
             this.validateButton = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.favoritesShowButton = new System.Windows.Forms.Button();
+            this.favoritesRemoveButton = new System.Windows.Forms.Button();
             this.favoritesAddButton = new System.Windows.Forms.Button();
             this.siteSelectCombobox = new System.Windows.Forms.ComboBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -190,6 +192,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.favoritesShowButton);
+            this.tabPage1.Controls.Add(this.favoritesRemoveButton);
             this.tabPage1.Controls.Add(this.favoritesAddButton);
             this.tabPage1.Controls.Add(this.siteSelectCombobox);
             this.tabPage1.Controls.Add(this.urlLabel);
@@ -213,13 +217,33 @@
             this.tabPage1.Text = "Search";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // favoritesShowButton
+            // 
+            this.favoritesShowButton.Location = new System.Drawing.Point(314, 132);
+            this.favoritesShowButton.Name = "favoritesShowButton";
+            this.favoritesShowButton.Size = new System.Drawing.Size(96, 23);
+            this.favoritesShowButton.TabIndex = 19;
+            this.favoritesShowButton.Text = "Show Favorites";
+            this.favoritesShowButton.UseVisualStyleBackColor = true;
+            this.favoritesShowButton.Click += new System.EventHandler(this.favoritesShowButton_Click);
+            // 
+            // favoritesRemoveButton
+            // 
+            this.favoritesRemoveButton.Location = new System.Drawing.Point(314, 190);
+            this.favoritesRemoveButton.Name = "favoritesRemoveButton";
+            this.favoritesRemoveButton.Size = new System.Drawing.Size(96, 23);
+            this.favoritesRemoveButton.TabIndex = 18;
+            this.favoritesRemoveButton.Text = "Remove Favorite";
+            this.favoritesRemoveButton.UseVisualStyleBackColor = true;
+            this.favoritesRemoveButton.Click += new System.EventHandler(this.favoritesRemoveButton_Click);
+            // 
             // favoritesAddButton
             // 
-            this.favoritesAddButton.Location = new System.Drawing.Point(314, 103);
+            this.favoritesAddButton.Location = new System.Drawing.Point(314, 161);
             this.favoritesAddButton.Name = "favoritesAddButton";
             this.favoritesAddButton.Size = new System.Drawing.Size(96, 23);
             this.favoritesAddButton.TabIndex = 17;
-            this.favoritesAddButton.Text = "Add to Favorites";
+            this.favoritesAddButton.Text = "Add Favorite";
             this.favoritesAddButton.UseVisualStyleBackColor = true;
             this.favoritesAddButton.Click += new System.EventHandler(this.favoritesAddButton_Click);
             // 
@@ -334,6 +358,8 @@
         private System.Windows.Forms.TextBox threadLimitTextBox;
         private System.Windows.Forms.ComboBox siteSelectCombobox;
         private System.Windows.Forms.Button favoritesAddButton;
+        private System.Windows.Forms.Button favoritesShowButton;
+        private System.Windows.Forms.Button favoritesRemoveButton;
     }
 }
 

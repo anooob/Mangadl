@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 
@@ -77,7 +78,8 @@ namespace MangaDl
                 ClearChapterListView(chaptersListview);
                 foreach (var c in list)
                 {
-                    var item = new ChapterListViewItem(new string[] { c.ChapterName, "0", "Ready" });
+                    var status = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Status.READY.ToString().ToLower());
+                    var item = new ChapterListViewItem(new string[] { c.ChapterName, "0", status });
                     item.Chapter = c;
                     c.Items.Add(item);
                     item.Refresh();
@@ -185,7 +187,8 @@ namespace MangaDl
 
         private void AddChapterToQueue(ChapterDownloaderBase chapter)
         {
-            var item = new ChapterListViewItem(new string[] { chapter.ChapterName, "0", "Ready" });
+            var status = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(Status.READY.ToString().ToLower());
+            var item = new ChapterListViewItem(new string[] { chapter.ChapterName, "0", status });
             item.Chapter = chapter;
             chapter.Items.Add(item);
             item.Refresh();

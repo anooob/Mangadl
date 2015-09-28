@@ -51,8 +51,10 @@ namespace MangaDl
                     ThreadDone(this, EventArgs.Empty);
                 }
             }
-            catch (ThreadAbortException e)
+            catch (Exception e)
             {
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
                 //ThreadDone(this, EventArgs.Empty);
             }
         }

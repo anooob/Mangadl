@@ -55,7 +55,7 @@ namespace MangaDl
             m_search = m_msSearch;
 
             var mfItem = new SiteSelectorItem(MangaSite.MANGAFOX, "MangaFox");
-            var msItem = new SiteSelectorItem(MangaSite.MANGALIFE, "MangaSee");
+            var msItem = new SiteSelectorItem(MangaSite.MANGALIFE, "MangaLife");
 
             siteSelectCombobox.Items.Add(mfItem);
             siteSelectCombobox.Items.Add(msItem);

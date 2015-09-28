@@ -50,21 +50,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Downloaders\ChapterDownloaderBase.cs" />
-    <Compile Include="Downloaders\ChapterDownloaderMangaFox.cs" />
-    <Compile Include="Downloaders\ChapterDownloaderMangaLife.cs" />
+    <Compile Include="Download\ChapterDownloaderBase.cs" />
+    <Compile Include="Download\ChapterDownloaderMangaFox.cs" />
+    <Compile Include="Download\ChapterDownloaderMangaLife.cs" />
     <Compile Include="Model\MangaBase.cs" />
     <Compile Include="Model\MangaMangaLife.cs" />
     <Compile Include="Model\Chapter.cs" />
     <Compile Include="Tools\Config.cs" />
-    <Compile Include="Downloaders\DownloaderManager.cs" />
+    <Compile Include="Download\DownloaderManager.cs" />
     <Compile Include="Tools\Constants.cs" />
-    <Compile Include="Tools\Extensions\ChapterListViewItem.cs" />
-    <Compile Include="Tools\Extensions\MangaListViewItem.cs" />
-    <Compile Include="Tools\Extensions\SiteSelectorItem.cs" />
+    <Compile Include="Extensions\ChapterListViewItem.cs" />
+    <Compile Include="Extensions\MangaListViewItem.cs" />
+    <Compile Include="Extensions\SiteSelectorItem.cs" />
     <Compile Include="Tools\Favorites.cs" />
-    <Compile Include="Tools\Parsers\ParserMangaLife.cs" />
-    <Compile Include="Tools\Search\SearchMangaFox.cs" />
+    <Compile Include="Parsers\ParserMangaLife.cs" />
+    <Compile Include="Search\SearchMangaFox.cs" />
     <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,12 +76,12 @@
     <Compile Include="Tools\Log.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\Parsers\ParserBase.cs" />
-    <Compile Include="Tools\Parsers\ParserMangaFox.cs" />
-    <Compile Include="Tools\Search\SearchBase.cs" />
-    <Compile Include="Tools\Search\SearchMangaLife.cs" />
+    <Compile Include="Parsers\ParserBase.cs" />
+    <Compile Include="Parsers\ParserMangaFox.cs" />
+    <Compile Include="Search\SearchBase.cs" />
+    <Compile Include="Search\SearchMangaLife.cs" />
     <Compile Include="Tools\ThreadWorker.cs" />
-    <Compile Include="Tools\Extensions\WebClientGZ.cs">
+    <Compile Include="Extensions\WebClientGZ.cs">
       <SubType>Component</SubType>
     </Compile>
     <EmbeddedResource Include="Forms\Form1.resx">

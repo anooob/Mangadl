@@ -61,6 +61,8 @@ namespace MangaDl
             siteSelectCombobox.Items.Add(mfItem);
             siteSelectCombobox.Items.Add(msItem);
             siteSelectCombobox.SelectedIndex = 1;
+
+            ShowFavorites();
         }
 
         private void OnGetChapterInfoCompleted(List<ChapterDownloaderBase> list)
@@ -368,7 +370,7 @@ namespace MangaDl
             }
         }
 
-        private void favoritesShowButton_Click(object sender, EventArgs e)
+        private void ShowFavorites()
         {
             searchListview.Items.Clear();
 
@@ -391,6 +393,11 @@ namespace MangaDl
                     searchListview.Items.Add(listviewItem);
                 }
             }
+        }
+
+        private void favoritesShowButton_Click(object sender, EventArgs e)
+        {
+            ShowFavorites();
         }
 
         private void UnsubscribeSelectionChanged()
@@ -417,6 +424,29 @@ namespace MangaDl
             UnsubscribeSelectionChanged();
             searchListview.SelectedItems.Clear();
             SubscribeSelectionChanged();
+        }
+
+        private void DeleteSelected()
+        {
+            if (m_downloader != null)
+            {
+                var chaptersToDelete = new List<ChapterDownloaderBase>();
+
+                foreach (var c in chaptersListview.SelectedItems)
+                {
+                    var item = (c as ChapterListViewItem);
+                    if (item != null)
+                    {
+                        chaptersToDelete.Add(item.Chapter);
+                    }
+                }
+                m_downloader.DeleteSelectedChapters(chaptersToDelete);
+            }
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            DeleteSelected();
         }
     }
 }

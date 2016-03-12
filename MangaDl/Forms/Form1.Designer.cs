@@ -53,6 +53,7 @@
             this.threadLimitTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.queueListview = new System.Windows.Forms.ListView();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -174,7 +175,7 @@
             // 
             // validateButton
             // 
-            this.validateButton.Location = new System.Drawing.Point(872, 132);
+            this.validateButton.Location = new System.Drawing.Point(872, 161);
             this.validateButton.Name = "validateButton";
             this.validateButton.Size = new System.Drawing.Size(96, 23);
             this.validateButton.TabIndex = 14;
@@ -194,6 +195,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.deleteButton);
             this.tabPage1.Controls.Add(this.favoritesShowButton);
             this.tabPage1.Controls.Add(this.favoritesRemoveButton);
             this.tabPage1.Controls.Add(this.favoritesAddButton);
@@ -317,6 +319,16 @@
             this.queueListview.TabIndex = 0;
             this.queueListview.UseCompatibleStateImageBehavior = false;
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(872, 132);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(96, 23);
+            this.deleteButton.TabIndex = 20;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -362,6 +374,7 @@
         private System.Windows.Forms.Button favoritesAddButton;
         private System.Windows.Forms.Button favoritesShowButton;
         private System.Windows.Forms.Button favoritesRemoveButton;
+        private System.Windows.Forms.Button deleteButton;
     }
 }
 

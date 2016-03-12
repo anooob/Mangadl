@@ -113,89 +113,55 @@ namespace MangaDl
         {
             try
             {
+                m_isValidating = true;
                 UpdateProgress(0);
                 UpdateStatus(Status.VALIDATING);
-                m_isValidating = true;
+                if (m_chapter == null || !m_chapter.GetPageCount())
+                {
+                    UpdateStatus(Status.INCOMPLETE);
+                    m_isValidating = false;
+                    return;
+                }
+
+                if (m_chapter.PageCount == 0)
+                {
+                    UpdateStatus(Status.ERROR);
+                    Log.WriteLine(m_chapter.FullName + ": 0 pages");
+                    m_isValidating = false;
+                    return;
+                }
 
                 var chapterPath = Path.Combine(m_mangaPath, m_chapter.FullName);
 
                 if (chapterPath != null && !Directory.Exists(chapterPath))
                 {
                     UpdateStatus(Status.INCOMPLETE);
+                    m_isValidating = false;
                     return;
                 }
 
-                HtmlDocument document = new HtmlDocument();
-                StringBuilder url = new StringBuilder();
+                var fileCount = Directory.GetFiles(chapterPath).Count();
 
-                if (m_chapter == null || !m_chapter.GetPageCount())
-                    return;
+                float ratio = ((float)fileCount / (float)m_chapter.PageCount) * 100f;
 
-                int pageCount = m_chapter.PageCount;
-
-                int foundImages = 0;
-
-                for (int i = 1; i <= pageCount; i++)
-                {
-                    CreatePageUrl(url, i);
-                    try
-                    {
-                        using (var webClient = new WebClientGZ())
-                        {
-                            var site = webClient.DownloadString(url.ToString());
-                            document.LoadHtml(site);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Log.WriteLine(e.Message);
-                        Log.WriteLine(e.StackTrace);
-                        UpdateStatus(Status.ERROR);
-                        return;
-                    }
-                    var imgUrl = GetImageUrl(document);
-                    if (imgUrl == null)
-                    {
-                        return;
-                    }
-
-                    if (!Directory.Exists(chapterPath))
-                    {
-                        throw new Exception("File not found.");
-                    }
-
-                    string imgName = imgUrl.Split('/').Last();
-                    string file = Path.Combine(chapterPath, imgName);
-                    if (File.Exists(file))
-                    {
-                        foundImages++;
-
-                    }
-
-                    float progress = (float)foundImages / (float)pageCount * 100f;
-                    UpdateProgress((int)progress);
-                }
-
-                if (foundImages == pageCount)
+                if (ratio == 100f)
                 {
                     UpdateStatus(Status.READY);
                 }
-                else
+                else 
                 {
                     UpdateStatus(Status.INCOMPLETE);
                 }
 
+                UpdateProgress((int)ratio);
+                m_isValidating = false;
             }
             catch (Exception e)
             {
                 Log.WriteLine(e.Message);
                 Log.WriteLine(e.StackTrace);
+                m_isValidating = false;
                 UpdateStatus(Status.ERROR);
-                m_isValidating = false;
-            }
-            finally
-            {
-                m_isValidating = false;
             }
         }
 
@@ -224,6 +190,27 @@ namespace MangaDl
                 }
             }
             return true;
+        }
+
+        public void DeleteChapter()
+        {
+            try
+            {
+                m_chapterPath = Path.Combine(m_mangaPath, m_chapter.FullName);
+
+                if (Directory.Exists(m_chapterPath))
+                {
+                    Directory.Delete(m_chapterPath, true);
+                }
+                UpdateProgress(0);
+                UpdateStatus(Status.READY);
+            }
+            catch (Exception e)
+            {
+                UpdateStatus(Status.ERROR);
+                Log.WriteLine(e.Message);
+                Log.WriteLine(e.StackTrace);
+            }
         }
 
         public void DownloadChapter()

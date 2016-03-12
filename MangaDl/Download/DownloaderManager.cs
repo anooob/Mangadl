@@ -91,6 +91,19 @@ namespace MangaDl
             }
         }
 
+        public void DeleteSelectedChapters(List<ChapterDownloaderBase> list)
+        {
+            foreach (var c in list)
+            {
+                if (m_downloadQueue.ContainsKey(c.ChapterName) || c.IsValidating || c.IsDownloading)
+                {
+                    continue;
+                }
+                ThreadWorker tw = new ThreadWorker(c.DeleteChapter);
+                tw.Start();
+            }
+        }
+
         public void DownloadSelectedChapters(List<ChapterDownloaderBase> list)
         {
             foreach (var c in list)

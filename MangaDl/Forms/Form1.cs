@@ -352,11 +352,14 @@ namespace MangaDl
 
         private void favoritesAddButton_Click(object sender, EventArgs e)
         {
-            var selectedItem = searchListview.SelectedItems[0] as MangaListViewItem;
-
-            if (selectedItem != null)
+            if (searchListview.SelectedItems.Count > 0)
             {
-                m_favorites.Add(selectedItem.Manga);
+                var selectedItem = searchListview.SelectedItems[0] as MangaListViewItem;
+
+                if (selectedItem != null)
+                {
+                    m_favorites.Add(selectedItem.Manga);
+                }
             }
         }
 
@@ -377,13 +380,13 @@ namespace MangaDl
             foreach (var item in m_favorites.GetFavorites())
             {
                 MangaBase manga = null;
-                if (item.Value.ToLower().Contains(MangaSite.MANGAFOX.ToString().ToLower()))
+                if (item.Name.ToLower().Contains(MangaSite.MANGAFOX.ToString().ToLower()))
                 {
-                    manga = new MangaMangaFox(item.Value);
+                    manga = new MangaMangaFox(item.Url);
                 }
-                if (item.Value.ToLower().Replace(".", "").Contains(MangaSite.MANGALIFE.ToString().ToLower()))
+                if (item.Name.ToLower().Replace(".", "").Contains(MangaSite.MANGALIFE.ToString().ToLower()))
                 {
-                    manga = new MangaMangaLife(item.Value);
+                    manga = new MangaMangaLife(item.Url);
                 }
 
                 if (manga != null)

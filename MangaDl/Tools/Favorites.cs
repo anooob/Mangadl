@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace MangaDl
 {
     class Favorites
     {
         private const string FavoritesFile = "favorites.txt";
-        private const char separator = ';';
-        private Dictionary<string, string> FavoritesList = new Dictionary<string,string>();
+        private List<FavoriteRow> FavoritesList = new List<FavoriteRow>();
 
         public Favorites()
         {
             LoadFavorites();
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetFavorites()
+        public IEnumerable<FavoriteRow> GetFavorites()
         {
             foreach (var item in FavoritesList)
             {
@@ -27,19 +27,27 @@ namespace MangaDl
 
         public void Add(MangaBase manga)
         {
-            if (manga != null && !FavoritesList.Contains(new KeyValuePair<string,string>(manga.ListName, manga.Url)))
+            if (manga != null)
             {
-                FavoritesList.Add(manga.ListName, manga.Url);
-                SaveFavorites();
+                var row = new FavoriteRow() { Name = manga.ListName, Url = manga.Url };
+                if (!FavoritesList.Contains(row))
+                {
+                    FavoritesList.Add(row);
+                    SaveFavorites();
+                }
             }
         }
 
         public void Remove(MangaBase manga)
         {
-            if (manga != null && FavoritesList.Contains(new KeyValuePair<string, string>(manga.ListName, manga.Url)))
+            if (manga != null)
             {
-                FavoritesList.Remove(manga.ListName);
-                SaveFavorites();
+                var row = new FavoriteRow() { Name = manga.ListName, Url = manga.Url };
+                if (FavoritesList.Contains(row))
+                {
+                    FavoritesList.Remove(row);
+                    SaveFavorites();
+                }
             }
         }
 
@@ -51,10 +59,10 @@ namespace MangaDl
                 {
                     using (StreamWriter writer = new StreamWriter(fs))
                     {
-                        foreach (var item in FavoritesList)
-                        {
-                            writer.WriteLine(item.Key + separator + item.Value);
-                        }
+                        var serializer = new XmlSerializer(typeof(FavoriteEntity));
+                        var entity = new FavoriteEntity();
+                        entity.Rows = FavoritesList;
+                        serializer.Serialize(writer, entity);
                     }
                 }
             }
@@ -71,19 +79,15 @@ namespace MangaDl
         public void LoadFavorites() 
         {
             FavoritesList.Clear();
+            var serializer = new XmlSerializer(typeof(FavoriteEntity));
             try
             {
-                using (StreamReader reader = File.OpenText(FavoritesFile))
+                using (StreamReader reader = new StreamReader(FavoritesFile))
                 {
-                    while (!reader.EndOfStream)
+                    var favorites = (FavoriteEntity)serializer.Deserialize(reader);
+                    if (favorites != null)
                     {
-                        string line = reader.ReadLine();
-                        var tokens = line.Split(separator);
-                        if (tokens.Count() < 2 || FavoritesList.Contains(new KeyValuePair<string,string>(tokens[0], tokens[1])))
-                        {
-                            continue;
-                        }
-                        FavoritesList.Add(tokens[0], tokens[1]);
+                        FavoritesList = favorites.Rows;
                     }
                 }
             }

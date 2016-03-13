@@ -63,6 +63,8 @@
     <Compile Include="Extensions\MangaListViewItem.cs" />
     <Compile Include="Extensions\SiteSelectorItem.cs" />
     <Compile Include="Tools\Entity\Config\ConfigEntity.cs" />
+    <Compile Include="Tools\Entity\Favorites\FavoriteEntity.cs" />
+    <Compile Include="Tools\Entity\Favorites\FavoriteRow.cs" />
     <Compile Include="Tools\Favorites.cs" />
     <Compile Include="Parsers\ParserMangaLife.cs" />
     <Compile Include="Search\SearchMangaFox.cs" />

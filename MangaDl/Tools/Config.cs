@@ -2,15 +2,14 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace MangaDl
 {
     static class Config
     {
         public const string ConfigFile = "config.txt";
-        public const char Separator = '=';
 
-        private const string SavePathStr = "path";
         private static string DefaultPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         private static string m_savePath = DefaultPath;
@@ -29,8 +28,6 @@ namespace MangaDl
                 }
             }
         }
-
-        public static string ThreadLimitStr = "threads";
         
         private static uint m_threadLimit = 3;
         public static uint ThreadLimit
@@ -41,21 +38,16 @@ namespace MangaDl
 
         public static void LoadConfig()
         {
+            var serializer = new XmlSerializer(typeof(ConfigEntity));
             try
             {
-                using (StreamReader reader = File.OpenText(Config.ConfigFile))
+                using (StreamReader reader = new StreamReader(Config.ConfigFile))
                 {
-                    while (!reader.EndOfStream)
+                    var config = (ConfigEntity)serializer.Deserialize(reader);
+                    if (config != null)
                     {
-                        string line = reader.ReadLine();
-                        if (line.Contains(Config.SavePathStr))
-                        {
-                            Config.SavePath = line.Split(Config.Separator).Last();
-                        }
-                        if (line.Contains(Config.ThreadLimitStr))
-                        {
-                            Config.ThreadLimit = uint.Parse(line.Split(Config.Separator).Last());
-                        }
+                        m_savePath = config.Path;
+                        m_threadLimit = config.Threads;
                     }
                 }
             }
@@ -71,17 +63,26 @@ namespace MangaDl
                     file.Close();
                     SaveConfig();
                 }
+                else
+                {
+                    Log.WriteLine(e.Message);
+                    Log.WriteLine(e.StackTrace);
+                }
             }
         }
 
         public static void SaveConfig()
         {
+            var serializer = new XmlSerializer(typeof(ConfigEntity));
+            var entity = new ConfigEntity();
+
+            entity.Path = m_savePath;
+            entity.Threads = m_threadLimit;
             using (FileStream fs = new FileStream(Config.ConfigFile, FileMode.Truncate, FileAccess.Write))
             {
                 using (StreamWriter writer = new StreamWriter(fs))
                 {
-                    writer.WriteLine(Config.SavePathStr + Config.Separator + Config.SavePath);
-                    writer.WriteLine(Config.ThreadLimitStr + Config.Separator + Config.ThreadLimit.ToString());
+                    serializer.Serialize(writer, entity);
                 }
             }
         }

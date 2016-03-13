@@ -62,6 +62,7 @@
     <Compile Include="Extensions\ChapterListViewItem.cs" />
     <Compile Include="Extensions\MangaListViewItem.cs" />
     <Compile Include="Extensions\SiteSelectorItem.cs" />
+    <Compile Include="Tools\Entity\Config\ConfigEntity.cs" />
     <Compile Include="Tools\Favorites.cs" />
     <Compile Include="Parsers\ParserMangaLife.cs" />
     <Compile Include="Search\SearchMangaFox.cs" />

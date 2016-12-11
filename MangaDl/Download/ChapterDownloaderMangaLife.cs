@@ -15,7 +15,7 @@ namespace MangaDl
 
         protected override string GetImageUrl(HtmlDocument document)
         {
-            var imgNode = document.DocumentNode.SelectNodes("//img")[0];
+            var imgNode = document.DocumentNode.SelectNodes("//img[contains(@class, 'CurImage')]")[0];
 
             if (imgNode == null)
                 return null;
@@ -27,7 +27,7 @@ namespace MangaDl
         protected override void CreatePageUrl(StringBuilder url, int pageNum)
         {
             url.Clear();
-            url.Append(m_chapter.UrlPrefix).Append(pageNum);
+            url.Append(m_chapter.UrlPrefix).Append(pageNum).Append(".html");
         }
     }
 }

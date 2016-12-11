@@ -7,7 +7,7 @@ namespace MangaDl
 {
     class MangaMangaLife : MangaBase
     {
-        private const string m_baseUrl = "http://manga.life";
+        private const string m_baseUrl = "http://mangalife.org";
 
         public override string ListName
         {
@@ -49,7 +49,7 @@ namespace MangaDl
             }
             try
             {
-                var chapters = document.DocumentNode.SelectNodes("//a[@class=\"list-group-item hidden-lg hidden-md hidden-sm\"]");
+                var chapters = document.DocumentNode.SelectNodes("//a[@class=\"list-group-item\"]");
 
                 m_chapters.Clear();
 

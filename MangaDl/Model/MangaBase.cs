@@ -57,6 +57,6 @@ namespace MangaDl
         }
 
         protected abstract void ParseUrl();
-        public abstract void GetChapters();
+        public abstract void GetChapters(object param);
     }
 }

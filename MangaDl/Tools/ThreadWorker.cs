@@ -8,8 +8,9 @@ namespace MangaDl
     {
         public event EventHandler ThreadDone;
 
-        private Action m_task;
-        public Action Task
+        private Action<object> m_task;
+        private object m_taskParameters;
+        public Action<object> Task
         {
             get { return m_task; }
             set { m_task = value; }
@@ -29,9 +30,10 @@ namespace MangaDl
             }
         }
 
-        public ThreadWorker(Action task)
+        public ThreadWorker(Action<object> task, object parameters = null)
         {
             m_task = task;
+            m_taskParameters = parameters;
         }
 
         public ThreadWorker()
@@ -44,7 +46,7 @@ namespace MangaDl
             {
                 if (m_task != null)
                 {
-                    m_task();
+                    m_task(m_taskParameters);
                 }
                 if (ThreadDone != null)
                 {

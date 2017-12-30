@@ -109,7 +109,7 @@ namespace MangaDl
             return false;
         }
 
-        public void ValidateChapter()
+        public void ValidateChapter(object param)
         {
             try
             {
@@ -192,7 +192,7 @@ namespace MangaDl
             return true;
         }
 
-        public void DeleteChapter()
+        public void DeleteChapter(object param)
         {
             try
             {
@@ -213,7 +213,7 @@ namespace MangaDl
             }
         }
 
-        public void DownloadChapter()
+        public void DownloadChapter(object param)
         {
             try
             {

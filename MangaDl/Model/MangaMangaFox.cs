@@ -27,7 +27,7 @@ namespace MangaDl
             m_name = tokens.Last();
         }
 
-        public override void GetChapters()
+        public override void GetChapters(object param)
         {
             m_isGettingChapters = true;
             HtmlDocument document = new HtmlDocument(); ;

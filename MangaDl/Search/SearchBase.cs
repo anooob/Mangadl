@@ -17,17 +17,6 @@ namespace MangaDl
             m_searchResultCallback = searchResultCallBack;
         }
 
-        public void GetSearchResults(string query)
-        {
-            var q = query.Replace(' ', '+').ToLower();
-            m_searchUrl = m_searchPrefix + q + m_searchPostfix;
-            m_searchResults.Clear();
-
-            var tw = new ThreadWorker(ParseResultDocument);
-            tw.ThreadDone += CallSearchResultsCallback;
-            tw.Start();
-        }
-
         protected void CallSearchResultsCallback(object sender, EventArgs e)
         {
             if (m_searchResultCallback != null)
@@ -36,6 +25,7 @@ namespace MangaDl
             }
         }
 
-        protected abstract void ParseResultDocument();
+        public abstract void GetSearchResults(string query);
+        protected abstract void ParseResultDocument(object keyword);
     }
 }

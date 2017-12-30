@@ -7,7 +7,7 @@ namespace MangaDl
 {
     class MangaMangaLife : MangaBase
     {
-        private const string m_baseUrl = "http://mangalife.org";
+        private const string m_baseUrl = "http://mangalife.us";
 
         public override string ListName
         {
@@ -29,7 +29,7 @@ namespace MangaDl
             m_name = tokens.Last().Split('=').Last();
         }
 
-        public override void GetChapters()
+        public override void GetChapters(object param)
         {
             m_isGettingChapters = true;
             HtmlDocument document = new HtmlDocument(); ;

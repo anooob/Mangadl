@@ -13,7 +13,18 @@ namespace MangaDl
             m_searchPostfix = "&advopts=1";
         }
 
-        protected override void ParseResultDocument()
+        public override void GetSearchResults(string query)
+        {
+            var q = query.Replace(' ', '+').ToLower();
+            m_searchUrl = m_searchPrefix + q + m_searchPostfix;
+            m_searchResults.Clear();
+
+            var tw = new ThreadWorker(ParseResultDocument);
+            tw.ThreadDone += CallSearchResultsCallback;
+            tw.Start();
+        }
+
+        protected override void ParseResultDocument(object keyword)
         {
             HtmlDocument document = new HtmlDocument();
             try

@@ -1,13 +1,23 @@
 ﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Security.Policy;
 
 namespace MangaDl
 {
+    class SearchDetail
+    {
+        public string i { get; set; }
+        public string s { get; set; }
+        public List<string> a { get; set; }
+    }
+
     class SearchMangaLife : SearchBase
     {
-        private const string m_baseUrl = "http://mangalife.us";
+        private const string m_baseUrl = "https://manga4life.com";
 
         public SearchMangaLife(Action<List<MangaBase>> searchResultCallBack)
             : base(searchResultCallBack)
@@ -33,35 +43,19 @@ namespace MangaDl
                 return;
             }
 
-            HtmlDocument document = new HtmlDocument();
-            try
+            using (var client = new HttpClient())
             {
-                using (var webClient = new WebClientGZ())
+                var response = client.PostAsync(m_baseUrl + "/_search.php", null).Result;
+                var responseString = response.Content.ReadAsStringAsync().Result;
+
+                var results = JsonConvert.DeserializeObject<List<SearchDetail>>(responseString);
+                m_searchResults.Clear();
+
+                if (results != null && results.Any())
                 {
-                    var site = webClient.DownloadString(m_searchUrl);
-                    document.LoadHtml(site);
-                }
-            }
-            catch (Exception e)
-            {
-                Log.WriteLine(e.Message);
-                Log.WriteLine(e.StackTrace);
-                return;
-            }
-
-            var results = document.DocumentNode.SelectNodes(@"//p[@class='seriesList chapOnly']/a[@class='ttip']");
-
-            m_searchResults.Clear();
-
-            if (results != null)
-            {
-                var res = results.Nodes().Where(x => x.InnerText.ToLower().Contains(key));
-                foreach (var item in res)
-                {
-                    var link = item.ParentNode.Attributes["href"].Value.TrimStart('.');
-                    if (link != null)
+                    foreach (var result in results.Where(x => x.i.ToLower().Contains((string)keyword)))
                     {
-                        var url = m_baseUrl + link;
+                        var url = $"{m_baseUrl}/manga/{result.i}";
                         m_searchResults.Add(new MangaMangaLife(url));
                     }
                 }

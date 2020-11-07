@@ -1,13 +1,20 @@
 ﻿using HtmlAgilityPack;
+using MangaDl.Model.Json.MangaLife;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace MangaDl
 {
+
+
+
     class MangaMangaLife : MangaBase
     {
-        private const string m_baseUrl = "http://mangalife.us";
+        private const string m_baseUrl = "https://manga4life.com";
 
         public override string ListName
         {
@@ -32,7 +39,9 @@ namespace MangaDl
         public override void GetChapters(object param)
         {
             m_isGettingChapters = true;
-            HtmlDocument document = new HtmlDocument(); ;
+            m_chapters.Clear();
+
+            HtmlDocument document = new HtmlDocument();
             try
             {
                 using (var webClient = new WebClientGZ())
@@ -49,18 +58,16 @@ namespace MangaDl
             }
             try
             {
-                var chapters = document.DocumentNode.SelectNodes("//a[@class=\"list-group-item\"]");
+                var ex = new Regex("vm.Chapters = (?<text>.+);");
+                var match = ex.Match(document.ParsedText);
+                var raw = match.Groups["text"].Value;
 
-                m_chapters.Clear();
+                var chapters = JsonConvert.DeserializeObject<List<ChapterJson>>(raw);
 
-                foreach (var c in chapters)
+                foreach (var chapter in chapters)
                 {
-                    if (c.OuterHtml != null && c.OuterHtml.Contains("dark_link"))
-                    {
-                        continue;
-                    }
-                    var url = c.Attributes["href"].Value.TrimStart('.');
-                    m_chapters.Add(new ChapterDownloaderMangaLife(m_baseUrl + url, "", m_name, m_path));
+                    var url = $"{m_baseUrl}/read-online/{m_name}-chapter-{chapter.Chapter.Substring(2, 3)}-index-{chapter.Chapter[0]}";
+                    m_chapters.Add(new ChapterDownloaderMangaLife(url, "", m_name, m_path));
                 }
             }
             catch (Exception e)

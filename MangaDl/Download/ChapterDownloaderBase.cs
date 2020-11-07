@@ -231,10 +231,6 @@ namespace MangaDl
                     Directory.CreateDirectory(m_chapterPath);
                 }
 
-                var webClient = new WebClientGZ();
-                var document = new HtmlDocument();
-                StringBuilder url = new StringBuilder();
-
                 if (m_chapter == null || !m_chapter.GetPageCount())
                 {
                     UpdateStatus(Status.ERROR);
@@ -243,41 +239,8 @@ namespace MangaDl
 
                 int pageCount = m_chapter.PageCount;
 
-                int downloadedImages = 0;
+                DownloadImages(pageCount);
 
-                for (int i = 1; i <= pageCount; i++)
-                {
-                    CreatePageUrl(url, i);
-                    try
-                    {
-                        var site = webClient.DownloadString(url.ToString());
-                        document.LoadHtml(site);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.WriteLine(e.Message);
-                        Log.WriteLine(e.StackTrace);
-                        UpdateStatus(Status.ERROR);
-                        return;
-                    }
-                    var imgUrl = GetImageUrl(document);
-                    if (imgUrl == null)
-                    {
-                        return;
-                    }
-
-                    if (!Directory.Exists(m_chapterPath))
-                    {
-                        throw new Exception("File not found.");
-                    }
-
-                    if (DownloadImage(imgUrl))
-                    {
-                        downloadedImages++;
-                    }
-                    float progress = (float)downloadedImages / (float)pageCount * 100f;
-                    UpdateProgress((int)progress);
-                }
                 UpdateStatus(Status.READY);
             }
             catch (Exception e)
@@ -290,6 +253,49 @@ namespace MangaDl
             finally
             {
                 m_isDownloading = false;
+            }
+        }
+
+        protected virtual void DownloadImages(int pageCount)
+        {
+            var webClient = new WebClientGZ();
+            var document = new HtmlDocument();
+            StringBuilder url = new StringBuilder();
+
+            int downloadedImages = 0;
+
+            for (int i = 1; i <= pageCount; i++)
+            {
+                CreatePageUrl(url, i);
+                try
+                {
+                    var site = webClient.DownloadString(url.ToString());
+                    document.LoadHtml(site);
+                }
+                catch (Exception e)
+                {
+                    Log.WriteLine(e.Message);
+                    Log.WriteLine(e.StackTrace);
+                    UpdateStatus(Status.ERROR);
+                    return;
+                }
+                var imgUrl = GetImageUrl(document);
+                if (imgUrl == null)
+                {
+                    return;
+                }
+
+                if (!Directory.Exists(m_chapterPath))
+                {
+                    throw new Exception("File not found.");
+                }
+
+                if (DownloadImage(imgUrl))
+                {
+                    downloadedImages++;
+                }
+                float progress = (float)downloadedImages / (float)pageCount * 100f;
+                UpdateProgress((int)progress);
             }
         }
 

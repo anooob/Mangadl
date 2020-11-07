@@ -3,19 +3,8 @@ namespace MangaDl
 {
     class Chapter
     {
-        private float m_chapterNum;
-        public float ChapterNum
-        {
-            get { return m_chapterNum; }
-            set { m_chapterNum = value; }
-        }
-
-        private float m_volumeNum;
-        public float VolumeNum
-        {
-            get { return m_volumeNum; }
-            set { m_volumeNum = value; }
-        }
+        public float ChapterNum { get; set; }
+        public float VolumeNum { get; set; }
 
         private uint m_id = 0;
         public uint Id
@@ -23,53 +12,21 @@ namespace MangaDl
             get { return m_id; }
         }
 
-        private string m_url;
-        public string Url
-        {
-            get { return m_url; }
-            set { m_url = value; }
-        }
+        public string Url { get; set; }
+        public string UrlPrefix { get; set; }
+        public string MangaName { get; set; }
+        public string ChapterName { get; set; }
 
-        private string m_urlPrefix;
-        public string UrlPrefix
-        {
-            get { return m_urlPrefix; }
-            set { m_urlPrefix = value; }
-        }
-
-        private string m_mangaName;
-        public string MangaName
-        {
-            get { return m_mangaName; }
-            set { m_mangaName = value; }
-        }
-
-        private string m_chapterName;
-        public string ChapterName
-        {
-            get { return m_chapterName; }
-            set { m_chapterName = value; }
-        }
-
-        public string FullName
-        {
-            get { return m_mangaName + "_" + m_chapterName; }
-        }
-
-        private int m_pageCount;
-        public int PageCount
-        {
-            get { return m_pageCount; }
-            set { m_pageCount = value; }
-        }
+        public string FullName => MangaName + "_" + ChapterName;
+        public int PageCount { get; set; }
 
         private ParserBase m_parser;
 
         public Chapter(string url, MangaSite type, string mangaName)
         {
-            m_url = url;
+            Url = url;
             //TODO check for different sites, probably factory
-            m_mangaName = mangaName;
+            MangaName = mangaName;
             switch (type)
             { 
                 case MangaSite.MANGAFOX:

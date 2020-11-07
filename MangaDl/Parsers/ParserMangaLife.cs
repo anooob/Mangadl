@@ -104,29 +104,30 @@ namespace MangaDl
 
         public override bool GetPageCount(Chapter chapter)
         {
-            HtmlDocument document = new HtmlDocument();
-            try
-            {
-                using (var webClient = new WebClientGZ())
-                {
-                    var site = webClient.DownloadString(chapter.Url);
-                    document.LoadHtml(site);
-                }
-            }
-            catch (Exception e)
-            {
-                Log.WriteLine(e.Message);
-                Log.WriteLine(e.StackTrace);
-                chapter.PageCount = -1;
-                return false;
-            }
-
-            var node = document.DocumentNode.SelectNodes("//select[contains(@class, 'PageSelect')]").First();
-            var pages = node.SelectNodes("*");
-
-            chapter.PageCount = pages.Count;
-
             return true;
+            //HtmlDocument document = new HtmlDocument();
+            //try
+            //{
+            //    using (var webClient = new WebClientGZ())
+            //    {
+            //        var site = webClient.DownloadString(chapter.Url);
+            //        document.LoadHtml(site);
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.WriteLine(e.Message);
+            //    Log.WriteLine(e.StackTrace);
+            //    chapter.PageCount = -1;
+            //    return false;
+            //}
+
+            //var node = document.DocumentNode.SelectNodes("//select[contains(@class, 'PageSelect')]").First();
+            //var pages = node.SelectNodes("*");
+
+            //chapter.PageCount = pages.Count;
+
+            //return true;
         }
     }
 }
